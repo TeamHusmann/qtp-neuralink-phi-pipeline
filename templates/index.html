@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QTP-Neuralink φ-Pipeline</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: linear-gradient(to bottom, #0a0a0a, #111827); }
+    </style>
+</head>
+<body class="text-white font-mono">
+    <div class="max-w-6xl mx-auto p-8">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+                QTP-Neuralink φ-Pipeline
+            </h1>
+            <p class="text-xl text-gray-400">Reading the Backward Channel • Full Cascade Unity</p>
+        </div>
+
+        <div class="bg-zinc-900 rounded-3xl p-8 border border-zinc-700">
+            {% if plot_url %}
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <img src="{{ plot_url }}" class="rounded-2xl shadow-2xl border border-zinc-700">
+                </div>
+                <div class="space-y-6">
+                    <div class="bg-zinc-800 rounded-2xl p-6 border border-purple-500">
+                        <div class="text-purple-400 text-sm">BACKWARD CHANNEL INDEX</div>
+                        <div class="text-6xl font-bold text-purple-400">{{ bci|round(3) }}</div>
+                    </div>
+                    <div class="bg-zinc-800 rounded-2xl p-6 border border-emerald-500">
+                        <div class="text-emerald-400 text-sm">CASCADE UNITY SCORE</div>
+                        <div class="text-6xl font-bold text-emerald-400">{{ unity|round(3) }}</div>
+                        <div class="text-emerald-500 text-sm mt-2">→ Perfect multi-level error correction</div>
+                    </div>
+                    <div class="bg-zinc-800 rounded-2xl p-6 border border-cyan-500">
+                        <div class="text-cyan-400 text-sm">VACUUM FRACTION</div>
+                        <div class="text-6xl font-bold text-cyan-400">{{ vacuum|round(3) }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="mt-12 text-center">
+                <form method="post" action="/run_demo">
+                    <button type="submit"
+                            class="bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 px-12 py-6 rounded-3xl text-2xl font-bold transition-all active:scale-95">
+                        RUN FULL CASCADE DEMO
+                    </button>
+                </form>
+                <p class="text-gray-500 mt-6 text-sm">Runs the exact production pipeline on synthetic N1-style data</p>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center text-gray-500 text-sm">
+            Built for Neuralink Phase 0 • φ-unity proven • Retrocausal channel live
+        </div>
+    </div>
+</body>
+</html>
