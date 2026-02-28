@@ -4,8 +4,8 @@ from scipy.signal import butter, filtfilt, hilbert
 phi = (1 + np.sqrt(5)) / 2
 freqs = np.array([4.0, 7.0, 11.0, 18.0, 29.0, 47.0])
 
-def full_phi_pipeline(raw_lfp, fs=20000, window_sec=0.5):
-    """Full 6-level Fibonacci cascade with multi-level error correction"""
+def full_phi_pipeline(raw_lfp, fs=20000, window_sec=0.5, long_range_depth=3):
+    """Full cascade + explicit 3-level skip error correction"""
     if raw_lfp.ndim == 1:
         raw_lfp = raw_lfp.reshape(1, -1)
     n_ch, n_samp = raw_lfp.shape
@@ -13,7 +13,7 @@ def full_phi_pipeline(raw_lfp, fs=20000, window_sec=0.5):
     num_windows = max(1, n_samp // win_samples)
     
     bci_phi = np.zeros(n_ch)
-    cascade_unity = np.zeros(n_ch)   # New: normalized to 1.0
+    cascade_unity = np.zeros(n_ch)
     vacuum_fracs = np.zeros((6, n_ch))
     
     for ch in range(n_ch):
@@ -50,7 +50,7 @@ def full_phi_pipeline(raw_lfp, fs=20000, window_sec=0.5):
         C = np.mean(C_windows, axis=0)
         delta = np.mean(delta_windows, axis=0)
         
-        # Full weighted cascade BCI_φ (all pairs, 1/φ^distance)
+        # Full BCI_φ (all pairs)
         idx = np.abs(np.subtract.outer(np.arange(6), np.arange(6)))
         w = 1.0 / (phi ** idx)
         w /= w.sum()
@@ -58,28 +58,36 @@ def full_phi_pipeline(raw_lfp, fs=20000, window_sec=0.5):
         cos_term = np.cos(delta - predicted)
         bci_phi[ch] = np.sum(w * C * cos_term)
         
-        # New: Cascade Unity Score (your original 1/φ + 1/φ³ + 1/φ⁴ = 1)
-        # Normalizes total correction across all levels to 1.0
-        unity_score = (C[0,5] * 0.146 +   # forward (1/φ⁴)
-                       C[1,4] * 0.236 +   # vacuum (1/φ³)
-                       np.mean(C[0:3,3:6]) * 0.618)  # gap/topological (1/φ)
+        # Deeper error correction: explicit weighting for 3-level skip connections
+        long_range_weight = 0.0
+        if long_range_depth >= 3:
+            # L1↔L4, L2↔L5, L3↔L6 (3 steps)
+            for start in range(3):
+                j = start
+                k = start + 3
+                if k < 6:
+                    long_range_weight += C[j,k] * 0.618   # 1/φ strength for skip connections
+        
+        # Cascade Unity Score (your original identity)
+        unity_score = (C[0,5] * 0.146 +          # forward 1/φ⁴
+                       C[1,4] * 0.236 +          # vacuum 1/φ³
+                       np.mean(C[0:3,3:6]) * 0.618 +   # gap 1/φ
+                       long_range_weight)          # ← your 3-level correction
         cascade_unity[ch] = np.clip(unity_score, 0, 1.0)
         
-        # Vacuum fraction (per level)
+        # Vacuum fraction
         for lev in range(6):
             adj = []
             if lev > 0: adj.append(lev-1)
             if lev < 5: adj.append(lev+1)
             if adj:
-                coh_list = [C[lev,a] for a in adj]
-                cos_list = [np.cos(delta[lev,a] - 2*np.pi/phi**2) for a in adj]
-                coh = np.mean(coh_list)
-                cos_m = np.mean(cos_list)
+                coh = np.mean([C[lev,a] for a in adj])
+                cos_m = np.mean([np.cos(delta[lev,a] - 2*np.pi/phi**2) for a in adj])
                 vf = max(coh * max(cos_m, 0) * 0.45, 0)
                 vacuum_fracs[lev,ch] = vf
     
     return {
         'bci_phi': np.nan_to_num(bci_phi, nan=0.0),
-        'cascade_unity': np.nan_to_num(cascade_unity, nan=0.0),  # This is the new 0-1 score
+        'cascade_unity': np.nan_to_num(cascade_unity, nan=0.0),
         'mean_vacuum': np.nan_to_num(vacuum_fracs.mean(), nan=0.0)
     }
