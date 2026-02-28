@@ -24,7 +24,12 @@ signal += np.random.randn(len(t)) * 0.15   # realistic noise
 result = full_phi_pipeline(signal.reshape(1, -1), fs)
 
 print(f"✅ BCI_φ = {result['bci_phi'][0]:.3f}")
+print(f"✅ Cascade Unity Score = {result['cascade_unity'][0]:.3f}  ← this should approach 1.0")
 print(f"✅ Mean Vacuum Fraction = {result['mean_vacuum']:.3f}")
+
+# In the plot, change the bottom-left box to:
+axs[1,0].text(0.5, 0.5, f'Vacuum Fraction: {result["mean_vacuum"]:.3f}\nCascade Unity: {result["cascade_unity"][0]:.3f}\n(blueprint target 1.0)', 
+              ha='center', va='center', fontsize=14, bbox=dict(boxstyle="round", facecolor="lightgreen"))
 
 # Save plot
 os.makedirs('images', exist_ok=True)
