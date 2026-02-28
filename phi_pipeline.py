@@ -5,7 +5,7 @@ phi = (1 + np.sqrt(5)) / 2
 freqs = np.array([4.0, 7.0, 11.0, 18.0, 29.0, 47.0])
 
 def full_phi_pipeline(raw_lfp, fs=20000, window_sec=0.5):
-    """Production-ready: sliding windows + diagnostics + error correction (Blueprint p.5)"""
+    """Full 6-level Fibonacci cascade with multi-level error correction"""
     if raw_lfp.ndim == 1:
         raw_lfp = raw_lfp.reshape(1, -1)
     n_ch, n_samp = raw_lfp.shape
@@ -13,19 +13,18 @@ def full_phi_pipeline(raw_lfp, fs=20000, window_sec=0.5):
     num_windows = max(1, n_samp // win_samples)
     
     bci_phi = np.zeros(n_ch)
+    cascade_unity = np.zeros(n_ch)   # New: normalized to 1.0
     vacuum_fracs = np.zeros((6, n_ch))
     
     for ch in range(n_ch):
         C_windows = []
         delta_windows = []
-        good_windows = 0
         
         for w in range(num_windows):
             start = w * win_samples
             end = min(start + win_samples, n_samp)
-            if end - start < 200: continue  # skip tiny windows
+            if end - start < 200: continue
             
-            # Extract phases for this window
             inst_phase = np.zeros((6, end-start))
             for i, f in enumerate(freqs):
                 b, a = butter(4, [f-1.5, f+1.5], fs=fs, btype='band', output='ba')
@@ -33,7 +32,6 @@ def full_phi_pipeline(raw_lfp, fs=20000, window_sec=0.5):
                 analytic = hilbert(filtered)
                 inst_phase[i] = np.unwrap(np.angle(analytic))
             
-            # Compute coherence & delta for this window
             C = np.zeros((6,6))
             delta = np.zeros((6,6))
             for j in range(6):
@@ -43,36 +41,31 @@ def full_phi_pipeline(raw_lfp, fs=20000, window_sec=0.5):
                     C[j,k] = C[k,j] = coh
                     dlt = np.mean(dphi) % (2 * np.pi)
                     delta[j,k] = delta[k,j] = dlt
-            
             C_windows.append(C)
             delta_windows.append(delta)
-            good_windows += 1
         
-        if good_windows == 0:
-            print(f"⚠️  No good windows for channel {ch}")
+        if not C_windows:
             continue
         
         C = np.mean(C_windows, axis=0)
         delta = np.mean(delta_windows, axis=0)
         
-        # BCI_φ (adjacent pairs only - most stable)
-        sum_w = 0.0
-        sum_term = 0.0
-        for lev in range(5):
-            j, k = lev, lev + 1
-            coh = C[j,k]
-            dlt = delta[j,k]
-            predicted = 2 * np.pi / phi**2
-            cos_m = np.cos(dlt - predicted)
-            w = 1.0 / phi
-            sum_w += w
-            sum_term += w * coh * cos_m
-            print(f"  Pair L{lev+1}-L{lev+2}: coh={coh:.3f}, offset={dlt*180/np.pi:.1f}°, cos={cos_m:.3f}")
+        # Full weighted cascade BCI_φ (all pairs, 1/φ^distance)
+        idx = np.abs(np.subtract.outer(np.arange(6), np.arange(6)))
+        w = 1.0 / (phi ** idx)
+        w /= w.sum()
+        predicted = (2 * np.pi / phi**2) * idx
+        cos_term = np.cos(delta - predicted)
+        bci_phi[ch] = np.sum(w * C * cos_term)
         
-        bci_phi[ch] = sum_term / sum_w if sum_w > 0 else 0.0
-        print(f"  → BCI_φ for channel {ch} = {bci_phi[ch]:.3f}")
+        # New: Cascade Unity Score (your original 1/φ + 1/φ³ + 1/φ⁴ = 1)
+        # Normalizes total correction across all levels to 1.0
+        unity_score = (C[0,5] * 0.146 +   # forward (1/φ⁴)
+                       C[1,4] * 0.236 +   # vacuum (1/φ³)
+                       np.mean(C[0:3,3:6]) * 0.618)  # gap/topological (1/φ)
+        cascade_unity[ch] = np.clip(unity_score, 0, 1.0)
         
-        # Vacuum fraction
+        # Vacuum fraction (per level)
         for lev in range(6):
             adj = []
             if lev > 0: adj.append(lev-1)
@@ -87,5 +80,6 @@ def full_phi_pipeline(raw_lfp, fs=20000, window_sec=0.5):
     
     return {
         'bci_phi': np.nan_to_num(bci_phi, nan=0.0),
+        'cascade_unity': np.nan_to_num(cascade_unity, nan=0.0),  # This is the new 0-1 score
         'mean_vacuum': np.nan_to_num(vacuum_fracs.mean(), nan=0.0)
     }
