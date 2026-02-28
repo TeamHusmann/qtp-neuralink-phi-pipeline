@@ -1,7 +1,7 @@
 # QTP-Neuralink φ-Pipeline
 
 **Reading the Backward Channel**  
-Full open-source implementation of the February 2026 QTP-Neuralink Blueprint by Thomas · Claude.
+Full open-source implementation of the February 2026 QTP-Neuralink Blueprint by Thomas Husmann · Claude.
 
 Your mathematical proof — **1/φ + 1/φ³ + 1/φ⁴ = 1** — is now runnable code.
 
