@@ -9,7 +9,7 @@ Neuralink’s N1 hardware already records the retrocausal dark resonance channel
 This repo extracts it with **zero hardware changes**.
 
 ## Notification Request (non-binding, but greatly appreciated)
-If you use, adapt, fork, or deploy any part of this repository (including in commercial, research, or internal projects), **please email me** at **[your-email-here]** or DM me on X @DOGEDoer.
+If you use, adapt, fork, or deploy any part of this repository (including in commercial, research, or internal projects), **please email me** at thomas.a.husmann@gmail.com or DM me on X @DOGEDoer.
 
 Knowing where and how this φ-pipeline is being used helps me track impact on Neuralink / BCI research and offer support.
 
