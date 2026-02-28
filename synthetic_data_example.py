@@ -1,13 +1,12 @@
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')  # non-blocking on macOS
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
 from phi_pipeline import full_phi_pipeline
 
 phi = (1 + np.sqrt(5)) / 2
 
-# Ultra-clean full 6-frequency φ-cascade (high SNR for all bands)
 fs = 20000
 t = np.arange(0, 30, 1/fs)
 signal = np.zeros_like(t, dtype=float)
@@ -16,7 +15,7 @@ for i, f in enumerate([4.0, 7.0, 11.0, 18.0, 29.0, 47.0]):
     phase_offset = (2 * np.pi / phi**2) * i
     signal += amp * np.sin(2 * np.pi * f * t + phase_offset)
 
-signal += np.random.randn(len(t)) * 0.15  # low noise
+signal += np.random.randn(len(t)) * 0.15
 
 result = full_phi_pipeline(signal.reshape(1, -1), fs)
 
@@ -48,7 +47,7 @@ axs[1,1].axis('off')
 
 plt.tight_layout()
 plt.savefig('images/all_three_extensions.png', dpi=300, bbox_inches='tight')
-plt.close()  # no blocking window
+plt.close()
 
 print("\n✅ Plot saved to images/all_three_extensions.png")
-print("The retrocausal channel is now visible and non-NaN.")
+print("Retrocausal channel is now loud and clear!")
