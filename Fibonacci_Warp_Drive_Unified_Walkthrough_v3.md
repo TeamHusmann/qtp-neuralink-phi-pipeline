@@ -750,7 +750,7 @@ The lattice spacing of the vacuum quasicrystal sits exactly at the scale of micr
 
 **Open Problem #1: CLOSED.** l = 9.3 nm. The single unknown is solved.
 
-### 17(b)
+## 17(b)
 
 The Cantor spectrum is a natural number system in base φ, with Zeckendorf representation ensuring uniqueness (no consecutive 1s, mirroring non-consecutive exponents). Every physical structure (atom, molecule, star, galaxy) has a unique Fibonacci address Z = {n₁, n₂, ... nₖ} (levels it couples to) and effective coordination z_n at each level.
 
