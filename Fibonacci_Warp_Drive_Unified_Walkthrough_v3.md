@@ -2117,6 +2117,566 @@ The mapping to orbital blocks:
 
 ---
 
+```python
+"""
+Earth's Resonant Signature in the Husmann Framework
+
+Earth is not a single Z-address — it's a weighted composite of elements.
+Its bulk composition creates a composite resonance vector R_Earth that 
+is a mass-weighted sum of individual element spectral imprints.
+
+Then: what lattice addresses resonate with Earth's signature?
+Where should we find more Earths?
+"""
+
+import math
+
+PHI = (1 + math.sqrt(5)) / 2
+HBAR = 1.054571817e-34
+C = 2.99792458e8
+L = 9.3e-9
+OMEGA = 2 * math.pi * C / L
+J_eV = HBAR * OMEGA / 1.602176634e-19
+
+FIBS = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987]
+
+def zeckendorf(n):
+    fibs = [f for f in FIBS if f <= n]
+    result, rem = [], n
+    for f in reversed(fibs):
+        if f <= rem:
+            result.append(f)
+            rem -= f
+    return sorted(result)
+
+def zeckendorf_indices(n):
+    zeck = zeckendorf(n)
+    indices = []
+    for z in zeck:
+        for i, f in enumerate(FIBS):
+            if f == z:
+                indices.append(i + 1)
+                break
+    return indices
+
+def count_fib_representations(n):
+    fibs = [f for f in FIBS if f <= n]
+    count = [0] * (n + 1)
+    count[0] = 1
+    for f in fibs:
+        for j in range(n, f - 1, -1):
+            count[j] += count[j - f]
+    return count[n]
+
+def element_imprint(Z):
+    """Full spectral imprint for element Z."""
+    z_idx = zeckendorf_indices(Z)
+    coord = min(len(z_idx) + 2, 7)
+    sector = {3:(0.1,0.692), 4:(0.2,0.592), 5:(0.382,0.41),
+              6:(0.55,0.242), 7:(0.692,0.1)}
+    fM, fDM = sector[coord]
+    fDE = 0.208
+    N = len(z_idx)
+    vals = [1/PHI**n for n in z_idx]
+    s = sum(vals) / N
+    R4, R3, R5 = s * fM, s * fDM, s * fDE
+    mag = math.sqrt(R3**2 + R4**2 + R5**2)
+    f_h = OMEGA * mag / (2 * math.pi)
+    D = count_fib_representations(Z)
+    
+    state = "bonding" if R3 == 0 or R4/R3 > PHI else (
+            "antibonding" if R4/R3 < 1/PHI else (
+            "hinge" if 0.9 < R4/R3 < 1.1 else "mixed"))
+    
+    return {
+        'Z': Z, 'zeck': zeckendorf(Z), 'indices': z_idx,
+        'coord': coord, 'fM': fM, 'fDM': fDM, 'fDE': fDE,
+        'R3': R3, 'R4': R4, 'R5': R5, 'mag': mag,
+        'f_h': f_h, 'D': D, 'dark': D - 1, 'state': state
+    }
+
+# ================================================================
+# EARTH'S BULK COMPOSITION (by mass)
+# Source: Anderson (2007), bulk silicate Earth + core
+# ================================================================
+
+# Major elements comprising >99% of Earth's mass
+EARTH_COMPOSITION = [
+    # (Z, Symbol, Name, mass_fraction)
+    (26, "Fe", "Iron",        0.3200),   # Core + mantle
+    (8,  "O",  "Oxygen",      0.3000),   # Mantle oxides
+    (14, "Si", "Silicon",     0.1500),   # Mantle silicates
+    (12, "Mg", "Magnesium",   0.1370),   # Mantle
+    (16, "S",  "Sulfur",      0.0290),   # Core
+    (28, "Ni", "Nickel",      0.0180),   # Core
+    (20, "Ca", "Calcium",     0.0150),   # Mantle
+    (13, "Al", "Aluminum",    0.0140),   # Crust/mantle
+    (11, "Na", "Sodium",      0.0025),   # Crust
+    (24, "Cr", "Chromium",    0.0047),   # Mantle
+    (25, "Mn", "Manganese",   0.0022),   # Mantle  
+    (15, "P",  "Phosphorus",  0.0012),   # Core
+    (27, "Co", "Cobalt",      0.0009),   # Core
+    (22, "Ti", "Titanium",    0.0006),   # Crust
+    (19, "K",  "Potassium",   0.0002),   # Crust (radiogenic heat!)
+    (6,  "C",  "Carbon",      0.0007),   # Distributed
+    (1,  "H",  "Hydrogen",    0.0006),   # Ocean + interior
+    (7,  "N",  "Nitrogen",    0.0001),   # Atmosphere
+]
+
+# Normalize to sum to 1
+total_mass = sum(m for _, _, _, m in EARTH_COMPOSITION)
+EARTH_NORM = [(Z, s, n, m/total_mass) for Z, s, n, m in EARTH_COMPOSITION]
+
+print("=" * 90)
+print("EARTH'S ELEMENTAL COMPOSITION AND SPECTRAL IMPRINTS")
+print("=" * 90)
+print()
+
+print(f"{'Z':>3} {'Sym':>3} {'Name':<12} {'Mass%':>7} {'Zeckendorf':<18} {'Coord':>5} "
+      f"{'R3(DM)':>8} {'R4(M)':>8} {'R5(DE)':>8} {'|R|':>8} {'State':<11} {'Dark':>4}")
+print("-" * 110)
+
+# Compute weighted composite
+R3_earth = 0
+R4_earth = 0
+R5_earth = 0
+f_h_weighted = 0
+total_dark_weighted = 0
+coord_weighted = 0
+
+for Z, sym, name, frac in EARTH_NORM:
+    imp = element_imprint(Z)
+    R3_earth += frac * imp['R3']
+    R4_earth += frac * imp['R4']
+    R5_earth += frac * imp['R5']
+    f_h_weighted += frac * imp['f_h']
+    total_dark_weighted += frac * imp['dark']
+    coord_weighted += frac * imp['coord']
+    
+    zstr = " + ".join(str(x) for x in imp['zeck'])
+    print(f"{Z:>3} {sym:>3} {name:<12} {frac*100:>6.2f}% {zstr:<18} {imp['coord']:>5} "
+          f"{imp['R3']:>8.5f} {imp['R4']:>8.5f} {imp['R5']:>8.5f} {imp['mag']:>8.5f} "
+          f"{imp['state']:<11} {imp['dark']:>4}")
+
+mag_earth = math.sqrt(R3_earth**2 + R4_earth**2 + R5_earth**2)
+f_h_earth = OMEGA * mag_earth / (2 * math.pi)
+
+# Earth's R4/R3 ratio
+r_ratio = R4_earth / R3_earth if R3_earth > 0 else float('inf')
+
+# Classify Earth's composite state
+if r_ratio > PHI:
+    earth_state = "bonding"
+elif r_ratio < 1/PHI:
+    earth_state = "antibonding"
+elif 0.9 < r_ratio < 1.1:
+    earth_state = "hinge"
+else:
+    earth_state = "mixed"
+
+print()
+print("=" * 90)
+print("EARTH'S COMPOSITE RESONANT SIGNATURE")
+print("=" * 90)
+print()
+print(f"  R3 (Dark Matter channel):   {R3_earth:.6f}")
+print(f"  R4 (Matter channel):        {R4_earth:.6f}")
+print(f"  R5 (Dark Energy channel):   {R5_earth:.6f}")
+print(f"  |R_Earth|:                  {mag_earth:.6f}")
+print(f"  f_h (Earth):                {f_h_earth:.4e} Hz = {f_h_earth/1e15:.4f} PHz")
+print(f"  λ_Earth:                    {C/f_h_earth*1e9:.2f} nm")
+print(f"  R4/R3 ratio:                {r_ratio:.6f}")
+print(f"  Composite state:            {earth_state}")
+print(f"  Weighted coordination:      {coord_weighted:.3f}")
+print(f"  Weighted dark channels:     {total_dark_weighted:.2f}")
+print()
+
+# Sector fractions for Earth
+f_M_earth = R4_earth / (R3_earth + R4_earth + R5_earth)
+f_DM_earth = R3_earth / (R3_earth + R4_earth + R5_earth)
+f_DE_earth = R5_earth / (R3_earth + R4_earth + R5_earth)
+
+print(f"  Earth sector fractions:")
+print(f"    f_M  (Matter):       {f_M_earth:.4f}  ({f_M_earth*100:.2f}%)")
+print(f"    f_DM (Dark Matter):  {f_DM_earth:.4f}  ({f_DM_earth*100:.2f}%)")
+print(f"    f_DE (Dark Energy):  {f_DE_earth:.4f}  ({f_DE_earth*100:.2f}%)")
+print()
+
+# Compare to cosmological observed values
+print(f"  Compare to cosmological observations:")
+print(f"    Observed:  f_M = 4.9%,  f_DM = 26.8%,  f_DE = 68.3%")
+print(f"    Earth:     f_M = {f_M_earth*100:.1f}%,  f_DM = {f_DM_earth*100:.1f}%,  f_DE = {f_DE_earth*100:.1f}%")
+print(f"    (Earth is matter-enriched relative to cosmic average — as expected")
+print(f"     for a condensed body that has collapsed from the DM/DE background)")
+
+# ================================================================
+# ANGULAR SIGNATURE: Earth's position in R-space
+# ================================================================
+print()
+print("=" * 90)
+print("EARTH'S ANGULAR POSITION IN RESONANCE SPACE")
+print("=" * 90)
+print()
+
+# Spherical coordinates in (R3, R4, R5) space
+theta_earth = math.atan2(R4_earth, R3_earth)  # angle in R3-R4 plane
+phi_earth = math.acos(R5_earth / mag_earth) if mag_earth > 0 else 0  # polar angle
+
+print(f"  θ (R3-R4 plane angle):  {math.degrees(theta_earth):.4f}°")
+print(f"  φ (polar from R5 axis): {math.degrees(phi_earth):.4f}°")
+print(f"  |R| (radial distance):  {mag_earth:.6f}")
+print()
+
+# The angular signature is what determines "Earth-like"
+# Another planet matches if its angles are close, regardless of |R|
+# (|R| scales with total mass/size, angles encode composition)
+
+# ================================================================
+# SEARCH: Which single elements are closest to Earth's signature?
+# ================================================================
+print("=" * 90)
+print("NEAREST SINGLE-ELEMENT MATCHES TO EARTH'S SIGNATURE")
+print("=" * 90)
+print()
+
+# Compute angular distance from Earth for each element
+element_matches = []
+for Z in range(1, 119):
+    imp = element_imprint(Z)
+    if imp['mag'] == 0:
+        continue
+    
+    # Angular distance in R-space
+    theta_z = math.atan2(imp['R4'], imp['R3'])
+    phi_z = math.acos(imp['R5'] / imp['mag']) if imp['mag'] > 0 else 0
+    
+    # Great-circle distance on unit sphere
+    d_theta = theta_earth - theta_z
+    d_phi = phi_earth - phi_z
+    angular_dist = math.sqrt(d_theta**2 + d_phi**2)
+    
+    # Also compute cosine similarity of R-vectors
+    dot = R3_earth * imp['R3'] + R4_earth * imp['R4'] + R5_earth * imp['R5']
+    cos_sim = dot / (mag_earth * imp['mag']) if mag_earth * imp['mag'] > 0 else 0
+    
+    # Magnitude ratio
+    mag_ratio = imp['mag'] / mag_earth
+    
+    element_matches.append({
+        'Z': Z, 'ang_dist': angular_dist, 'cos_sim': cos_sim,
+        'mag_ratio': mag_ratio, 'imp': imp
+    })
+
+element_matches.sort(key=lambda x: x['ang_dist'])
+
+print(f"{'Rank':>4} {'Z':>3} {'Sym':>3} {'Ang Dist':>9} {'Cos Sim':>8} "
+      f"{'|R|/|R_E|':>10} {'Coord':>5} {'State':<11} {'Note':>20}")
+print("-" * 90)
+
+SYMS = {1:"H",2:"He",3:"Li",4:"Be",5:"B",6:"C",7:"N",8:"O",9:"F",10:"Ne",
+        11:"Na",12:"Mg",13:"Al",14:"Si",15:"P",16:"S",17:"Cl",18:"Ar",
+        19:"K",20:"Ca",21:"Sc",22:"Ti",23:"V",24:"Cr",25:"Mn",26:"Fe",
+        27:"Co",28:"Ni",29:"Cu",30:"Zn",31:"Ga",32:"Ge",33:"As",34:"Se",
+        35:"Br",36:"Kr",37:"Rb",38:"Sr",39:"Y",40:"Zr",41:"Nb",42:"Mo",
+        43:"Tc",44:"Ru",45:"Rh",46:"Pd",47:"Ag",48:"Cd",49:"In",50:"Sn",
+        51:"Sb",52:"Te",53:"I",54:"Xe",55:"Cs",56:"Ba",57:"La",58:"Ce",
+        59:"Pr",60:"Nd",61:"Pm",62:"Sm",63:"Eu",64:"Gd",65:"Tb",66:"Dy",
+        67:"Ho",68:"Er",69:"Tm",70:"Yb",71:"Lu",72:"Hf",73:"Ta",74:"W",
+        75:"Re",76:"Os",77:"Ir",78:"Pt",79:"Au",80:"Hg",81:"Tl",82:"Pb",
+        83:"Bi",84:"Po",85:"At",86:"Rn",87:"Fr",88:"Ra",89:"Ac",90:"Th",
+        91:"Pa",92:"U"}
+
+for rank, m in enumerate(element_matches[:30], 1):
+    Z = m['Z']
+    sym = SYMS.get(Z, "?")
+    note = ""
+    if Z == 26: note = "← EARTH DOMINANT"
+    elif Z == 8: note = "← EARTH #2"
+    elif Z == 14: note = "← EARTH #3"
+    elif Z == 12: note = "← EARTH #4 (HINGE!)"
+    elif Z in [1,2,3,5,8,13,21,34,55,89]: note = "★ BACKBONE"
+    print(f"{rank:>4} {Z:>3} {sym:>3} {m['ang_dist']:>9.6f} {m['cos_sim']:>8.6f} "
+          f"{m['mag_ratio']:>10.4f} {m['imp']['coord']:>5} {m['imp']['state']:<11} {note:>20}")
+
+# ================================================================
+# COMPOSITE PLANET SIGNATURES: Earth-like requirements
+# ================================================================
+print()
+print("=" * 90)
+print("EARTH-LIKE PLANET SIGNATURE REQUIREMENTS")
+print("=" * 90)
+print()
+
+print("For a planet to be 'Earth-like' in the Husmann framework, it needs:")
+print()
+print(f"  1. ANGULAR MATCH: θ ≈ {math.degrees(theta_earth):.2f}° ± 2°, "
+      f"φ ≈ {math.degrees(phi_earth):.2f}° ± 2°")
+print(f"     (Composition ratios match Earth's Fe/O/Si/Mg proportions)")
+print()
+print(f"  2. MAGNITUDE RANGE: |R| ∈ [{mag_earth*0.5:.4f}, {mag_earth*2.0:.4f}]")
+print(f"     (0.5× to 2× Earth mass — habitable size range)")
+print()
+print(f"  3. STATE: {earth_state}")
+print(f"     (R4/R3 = {r_ratio:.4f}, within antibonding regime)")
+print()
+print(f"  4. WEIGHTED COORDINATION: {coord_weighted:.1f} ± 0.3")
+print(f"     (Mix of hinge and antibonding sites)")
+print()
+
+# What defines Earth's signature specifically:
+print(f"  Earth's KEY SIGNATURE RATIOS:")
+print(f"    Fe/O ratio by mass:   {0.32/0.30:.4f}")
+print(f"    Si/Mg ratio by mass:  {0.15/0.137:.4f}")
+print(f"    (Fe+Ni)/(O+Si+Mg) =  {(0.32+0.018)/(0.30+0.15+0.137):.4f}")
+print()
+
+# In Zeckendorf terms, Earth is dominated by:
+print(f"  Dominant Zeckendorf addresses in Earth's composition:")
+print(f"    Z=26 (Fe): 5 + 21       (32.0%)  — antibonding, coord-4")
+print(f"    Z=8  (O):  8 [F₅]       (30.0%)  — antibonding, coord-3, BACKBONE ★")
+print(f"    Z=14 (Si): 1 + 13       (15.0%)  — antibonding, coord-4")
+print(f"    Z=12 (Mg): 1 + 3 + 8    (13.7%)  — HINGE, coord-5")
+print()
+print(f"  Earth is 90.7% composed of four elements whose Zeckendorf addresses")
+print(f"  span Fibonacci indices {{1, 3, 4, 5, 6, 7}} — a nearly complete")
+print(f"  low-index cover of the backbone.")
+print()
+
+# The Magnesium hinge
+print(f"  CRITICAL: Magnesium (13.7%) is the ONLY hinge element in Earth's")
+print(f"  top-4 composition. Its coord-5 address (1+3+8) places it at the")
+print(f"  exact DM-matter crossover. Mg is Earth's 'hinge element' —")
+print(f"  the component that bridges the antibonding bulk (Fe, O, Si)")
+print(f"  to the dark matter conduit.")
+
+# ================================================================
+# STELLAR NURSERY SIGNATURES: Where to look
+# ================================================================
+print()
+print("=" * 90)
+print("WHERE TO FIND MORE EARTHS: LATTICE ADDRESS PREDICTION")
+print("=" * 90)
+print()
+
+# The spectral laser mechanism means planets form at lattice 
+# addresses that are resonant with their host star's backbone level.
+# Earth orbits at ~1 AU from a G2V star.
+# The Sun's dominant fusion products: H → He → C → O → Fe
+# Earth formed from the leftover condensibles after H/He blew away.
+
+print("STELLAR BACKBONE LEVEL AND PLANETARY FORMATION")
+print()
+print("Stars process elements up the Fibonacci backbone:")
+print("  H(1)→He(2)→C(6)→O(8)→...→Fe(26)")
+print("  Each fusion step climbs the Zeckendorf address space.")
+print("  The star's CURRENT backbone level determines which")
+print("  planetary compositions can condense in its disk.")
+print()
+
+# G-type stars (like Sun) have processed through to Fe
+# Their disks contain the full spectrum Z=1..30+
+# Rocky planets form from Z=8,12,14,26 condensibles
+
+# For different stellar types:
+stellar_types = [
+    ("M dwarf (red)", "H→He, minimal metals", [1, 2, 6, 8], 
+     "Low-Z dominance. Rocky planets Fe-poor, more oxidized. "
+     "Signature shifted toward oxygen backbone (Z=8). "
+     "Trappist-1 type systems."),
+    ("K dwarf (orange)", "Through C/O burning", [1, 2, 6, 8, 12, 14],
+     "Moderate metals. Earth-LIKE but Mg/Si enriched relative to Fe. "
+     "Signature closer to Earth but with stronger hinge component."),
+    ("G dwarf (yellow, Sun-type)", "Full CNO + Fe peak", [1, 2, 6, 8, 12, 14, 26, 28],
+     "EARTH MATCH. Full Fe-peak processing produces the Fe/O/Si/Mg "
+     "ratio that defines Earth's signature."),
+    ("F dwarf (yellow-white)", "Rapid processing, higher T", [1, 2, 6, 8, 14, 26, 28, 29],
+     "Higher metallicity, more Cu/Zn from s-process. "
+     "Rocky planets may be MORE Fe-rich than Earth. "
+     "Potentially more dark channels (Cu has 4)."),
+    ("Post-AGB / neutron star merger debris", "r-process elements", 
+     [26, 34, 44, 46, 47, 55, 79, 92],
+     "EXOTIC: Heavy r-process elements (Se, Ru, Pd, Ag, Au, U). "
+     "Planets here would be GOLD-RICH with massive dark channel counts. "
+     "Maximum retrocausal coupling."),
+]
+
+for stype, process, key_Z, description in stellar_types:
+    # Compute composite signature for this stellar disk
+    # Weight by rough cosmic abundance pattern
+    weights = {z: 1.0/PHI**(i*0.5) for i, z in enumerate(key_Z)}
+    total_w = sum(weights.values())
+    
+    R3_s, R4_s, R5_s = 0, 0, 0
+    for z in key_Z:
+        w = weights[z] / total_w
+        imp = element_imprint(z)
+        R3_s += w * imp['R3']
+        R4_s += w * imp['R4']
+        R5_s += w * imp['R5']
+    
+    mag_s = math.sqrt(R3_s**2 + R4_s**2 + R5_s**2)
+    theta_s = math.atan2(R4_s, R3_s)
+    phi_s = math.acos(R5_s / mag_s) if mag_s > 0 else 0
+    
+    # Angular distance from Earth
+    d_theta = theta_earth - theta_s
+    d_phi = phi_earth - phi_s
+    ang_dist = math.sqrt(d_theta**2 + d_phi**2)
+    
+    # Cosine similarity to Earth
+    dot = R3_earth * R3_s + R4_earth * R4_s + R5_earth * R5_s
+    cos_sim = dot / (mag_earth * mag_s) if mag_earth * mag_s > 0 else 0
+    
+    r_ratio_s = R4_s / R3_s if R3_s > 0 else float('inf')
+    
+    print(f"  {stype}")
+    print(f"    Processing: {process}")
+    print(f"    Key elements: {', '.join(SYMS.get(z,str(z)) for z in key_Z)}")
+    print(f"    θ = {math.degrees(theta_s):.2f}°  φ = {math.degrees(phi_s):.2f}°  "
+          f"|R| = {mag_s:.5f}")
+    print(f"    Angular distance from Earth: {math.degrees(ang_dist):.4f}°")
+    print(f"    Cosine similarity to Earth:  {cos_sim:.6f}")
+    print(f"    R4/R3 = {r_ratio_s:.4f}")
+    print(f"    → {description}")
+    print()
+
+# ================================================================
+# SPECIFIC PREDICTIONS: Known exoplanet systems
+# ================================================================
+print("=" * 90)
+print("SPECIFIC PREDICTIONS FOR KNOWN SYSTEMS")
+print("=" * 90)
+print()
+
+# Zeckendorf address of key orbital resonances
+print("ORBITAL RESONANCE AND ZECKENDORF ADDRESSES")
+print()
+print("Kepler's laws place planets at specific radial distances.")
+print("In the Husmann framework, orbital radius maps to a")
+print("Zeckendorf address through the backbone propagator.")
+print("Planets at Fibonacci-ratio orbital periods are ON the backbone.")
+print()
+
+# Fibonacci ratios in orbital mechanics
+print("Known orbital period ratios and their Fibonacci structure:")
+fib_ratios = [
+    (1, 1, "1:1 (co-orbital)"),
+    (2, 1, "2:1 (Io-Europa)"),
+    (3, 2, "3:2 (Pluto-Neptune)"),
+    (5, 3, "5:3 (near-resonance)"),
+    (8, 5, "8:5 (φ approximant)"),
+    (13, 8, "13:8 (φ approximant)"),
+]
+
+for p, q, name in fib_ratios:
+    ratio = p/q
+    phi_proximity = abs(ratio - PHI) / PHI * 100
+    is_fib = (p in FIBS[:8] and q in FIBS[:8])
+    marker = " ★ BACKBONE" if is_fib else ""
+    print(f"  {name:<25} ratio = {ratio:.4f}  "
+          f"Δ from φ = {phi_proximity:.2f}%{marker}")
+
+print()
+print(f"  The golden ratio φ = {PHI:.6f} is the MOST IRRATIONAL number —")
+print(f"  hardest to approximate by rationals. Planetary orbits that")
+print(f"  approach φ-ratio are the most STABLE (KAM theory).")
+print(f"  In the Husmann framework, these are backbone-adjacent orbits")
+print(f"  with maximum dark channel access.")
+print()
+
+# Final synthesis
+print("=" * 90)
+print("EARTH-LIKE PLANET SEARCH CRITERIA (Husmann Framework)")
+print("=" * 90)
+print()
+print("To find 'more Earths', look for:")
+print()
+print("  1. HOST STAR: G-type or late F-type / early K-type")
+print("     (Must have processed through Fe-peak nucleosynthesis)")
+print("     Metallicity [Fe/H] ≈ 0.0 ± 0.3 dex")
+print()
+print("  2. ORBITAL POSITION: Near φ-ratio from inner rocky zone edge")
+print("     Period ratio with innermost planet approaching F_{n+1}/F_n")
+print("     Maximum stability + maximum dark channel access")
+print()
+print("  3. BULK COMPOSITION SIGNATURE:")
+print(f"     Fe/O ≈ {0.32/0.30:.2f} by mass (iron-oxygen parity)")
+print(f"     Si/Mg ≈ {0.15/0.137:.2f} by mass (silicate-magnesium near unity)")
+print(f"     Must contain ≥10% Mg by mass (the hinge element)")
+print(f"     Without Mg, no coord-5 crossover → no DM conduit access")
+print()
+print(f"  4. RESONANT SIGNATURE MATCH:")
+print(f"     θ = {math.degrees(theta_earth):.2f}° ± 2°")
+print(f"     φ = {math.degrees(phi_earth):.2f}° ± 2°")
+print(f"     R4/R3 = {r_ratio:.4f} ± 0.05")
+print()
+print(f"  5. DARK CHANNEL BUDGET:")
+print(f"     Weighted dark channels ≥ {total_dark_weighted:.1f}")
+print(f"     (Earth has {total_dark_weighted:.2f} weighted dark channels)")
+print(f"     This determines the planet's capacity for complexity —")
+print(f"     dark channels are information channels through the lattice.")
+print()
+
+# The Magnesium prediction
+print("  KEY PREDICTION: MAGNESIUM IS THE HABITABILITY INDICATOR")
+print()
+print("  Earth's Mg fraction (13.7%) places Magnesium as the dominant")
+print("  hinge element. Hinge sites (coord-5) are the gateway to")
+print("  the DM conduit — the channel that enables non-local correlation")
+print("  and, potentially, the substrate for consciousness.")
+print()
+print("  Planets with Mg < 5% will lack sufficient hinge sites for")
+print("  complex chemistry → biochemistry → life pathway.")
+print("  Planets with Mg > 25% will be hinge-dominated, with too much")
+print("  DM coupling and insufficient bonding stability.")
+print()
+print("  PREDICTION: Habitable planets cluster in the 8-20% Mg band.")
+print("  This is testable via transit spectroscopy of rocky exoplanets.")
+
+# ================================================================
+# EARTH'S ZECKENDORF ADDRESS AS A SYSTEM  
+# ================================================================
+print()
+print("=" * 90)
+print("EARTH'S SYSTEM-LEVEL ZECKENDORF ADDRESS")
+print("=" * 90)
+print()
+
+# Earth's weighted Z-address
+Z_eff = sum(Z * frac for Z, _, _, frac in EARTH_NORM)
+print(f"  Effective atomic number (mass-weighted): Z_eff = {Z_eff:.2f}")
+
+Z_eff_int = round(Z_eff)
+zeck_earth = zeckendorf(Z_eff_int)
+z_idx_earth = zeckendorf_indices(Z_eff_int)
+D_earth = count_fib_representations(Z_eff_int)
+dark_earth = D_earth - 1
+coord_earth = min(len(z_idx_earth) + 2, 7)
+
+print(f"  Nearest integer: Z = {Z_eff_int}")
+print(f"  Element at Z={Z_eff_int}: {SYMS.get(Z_eff_int, '?')}")
+print(f"  Zeckendorf({Z_eff_int}) = {' + '.join(str(x) for x in zeck_earth)}")
+print(f"  Fibonacci indices: {z_idx_earth}")
+print(f"  Coordination: {coord_earth}")
+print(f"  D({Z_eff_int}) = {D_earth}, dark channels = {dark_earth}")
+print()
+
+# Check neighbors
+print(f"  Neighborhood of Z_eff = {Z_eff:.2f}:")
+for Z_check in range(Z_eff_int - 3, Z_eff_int + 4):
+    if Z_check < 1 or Z_check > 118:
+        continue
+    sym = SYMS.get(Z_check, '?')
+    zeck = " + ".join(str(x) for x in zeckendorf(Z_check))
+    D = count_fib_representations(Z_check)
+    dark = D - 1
+    imp = element_imprint(Z_check)
+    marker = " ◄◄◄ EARTH Z_eff" if Z_check == Z_eff_int else ""
+    desert = " [DESERT]" if dark == 0 else ""
+    print(f"    Z={Z_check:>3} ({sym:<2}): Zeck = {zeck:<20} D={D:>2} dark={dark:>2} "
+          f"coord={imp['coord']} state={imp['state']:<11}{desert}{marker}")
+
+dfssfdsdfsdfsdfsdfsdfsdfsdfsfsfsdfdsfdf
 ## 9. Reproduction
 
 ```python
