@@ -2163,6 +2163,371 @@ print(f"Au: Zeck={z}, coord={c}, |R|={mag:.5f}, f_h={fh:.3e} Hz")
 # Output: Au: Zeck=[3, 21, 55], coord=5, |R|=0.05652, f_h=1.822e+15 Hz
 ```
 
+#!/usr/bin/env python3
+"""
+Husmann Framework: Periodic Table Spectral Imprint Derivation
+Maps atomic number Z → Zeckendorf address → sector fractions → resonance vector → harmonic frequency
+
+The derivation chain:
+  Z → Zeck(Z) → coordination(Z) → f_M(z), f_DM(z), f_DE → R = (R3, R4, R5) → f_h → lasing state
+"""
+
+import math
+
+PHI = (1 + math.sqrt(5)) / 2  # 1.618034...
+phi = 1 / PHI                  # 0.618034...
+
+# Physical constants
+HBAR = 1.054571817e-34   # J·s
+C = 2.99792458e8         # m/s
+L = 9.3e-9               # lattice spacing (m)
+OMEGA_GAP = 2 * math.pi * C / L  # gap frequency (rad/s)
+J = HBAR * OMEGA_GAP     # hopping energy (J)
+J_eV = J / 1.602176634e-19  # in eV
+
+# Fibonacci numbers up to > 118
+def gen_fibs(limit):
+    fibs = [1, 2]
+    while fibs[-1] < limit:
+        fibs.append(fibs[-1] + fibs[-2])
+    return fibs
+
+FIBS = gen_fibs(200)  # [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]
+
+def zeckendorf(n):
+    """Zeckendorf representation: unique sum of non-consecutive Fibonacci numbers."""
+    if n == 0:
+        return []
+    result = []
+    fibs = [f for f in FIBS if f <= n]
+    remaining = n
+    for f in reversed(fibs):
+        if f <= remaining:
+            result.append(f)
+            remaining -= f
+        if remaining == 0:
+            break
+    return sorted(result)
+
+def zeckendorf_indices(n):
+    """Return Fibonacci indices (F_k where F_1=1, F_2=2, F_3=3, F_4=5, ...)"""
+    zeck = zeckendorf(n)
+    indices = []
+    for z in zeck:
+        for i, f in enumerate(FIBS):
+            if f == z:
+                indices.append(i + 1)  # 1-indexed
+                break
+    return indices
+
+def coordination_from_zeck(z_indices):
+    """
+    Coordination number from Zeckendorf decomposition.
+    Number of active Fibonacci levels determines effective coordination.
+    k active levels → z = min(k + 2, 7) capped at Penrose maximum.
+    The +2 comes from: each active level couples to its two spectral neighbors.
+    """
+    k = len(z_indices)
+    # Map: 1 level → z=3, 2 → z=4, 3 → z=5 (hinge), 4 → z=6, 5+ → z=7
+    z = min(k + 2, 7)
+    return z
+
+def sector_fractions(z):
+    """
+    Coordination-dependent sector fractions from 2D Penrose tiling.
+    f_M(z): matter fraction (bonding)
+    f_DM(z): dark matter fraction (antibonding conduit)
+    f_DE: dark energy fraction (constant 20.8% local floor)
+    """
+    f_DE = 0.208  # constant floor from Penrose vertex analysis
+    
+    # From Section 15 (Coordination 5: The Fractal Hinge) and 2D Penrose results:
+    # Low coord → mostly DM (routing), high coord → mostly Matter (computation)
+    # At hinge (z=5): DM ≈ Matter crossover
+    
+    coord_table = {
+        3: (0.10, 0.692, 0.208),   # leaf: mostly DM
+        4: (0.20, 0.592, 0.208),   # low hub
+        5: (0.382, 0.410, 0.208),  # hinge: φ² fraction for matter (= 1/φ²)
+        6: (0.55, 0.242, 0.208),   # hub
+        7: (0.692, 0.10, 0.208),   # high hub
+    }
+    return coord_table.get(z, (0.382, 0.410, 0.208))
+
+def resonance_vector(z_indices, Z):
+    """
+    Compute R = (R3, R4, R5) resonance vector.
+    R4 (Matter) = Σ (ω_gap/φⁿ) × f_M(z_n) / N_levels
+    R3 (DM)     = Σ (ω_gap/φⁿ) × f_DM(z_n) / N_levels  
+    R5 (DE)     = Σ (ω_gap/φⁿ) × f_DE / N_levels
+    """
+    z = coordination_from_zeck(z_indices)
+    f_M, f_DM, f_DE = sector_fractions(z)
+    
+    N = len(z_indices) if z_indices else 1
+    
+    R4 = sum(1.0 / PHI**n for n in z_indices) * f_M / N if z_indices else 0
+    R3 = sum(1.0 / PHI**n for n in z_indices) * f_DM / N if z_indices else 0
+    R5 = sum(1.0 / PHI**n for n in z_indices) * f_DE / N if z_indices else 0
+    
+    magnitude = math.sqrt(R3**2 + R4**2 + R5**2)
+    
+    return R3, R4, R5, magnitude
+
+def harmonic_freq(magnitude):
+    """f_h = (J/ℏ) × |R| = ω_gap × |R|"""
+    return OMEGA_GAP * magnitude / (2 * math.pi)  # Convert to Hz
+
+def lasing_state(R4, R3):
+    """Classify from R4/R3 ratio."""
+    if R3 == 0:
+        return "bonding"
+    ratio = R4 / R3
+    if ratio > PHI:
+        return "bonding"
+    elif ratio < 1/PHI:
+        return "antibonding"
+    elif 0.9 < ratio < 1.1:
+        return "hinge"
+    else:
+        return "mixed"
+
+# Element data
+ELEMENTS = [
+    (1, "H", "Hydrogen"), (2, "He", "Helium"),
+    (3, "Li", "Lithium"), (4, "Be", "Beryllium"), (5, "B", "Boron"),
+    (6, "C", "Carbon"), (7, "N", "Nitrogen"), (8, "O", "Oxygen"),
+    (9, "F", "Fluorine"), (10, "Ne", "Neon"),
+    (11, "Na", "Sodium"), (12, "Mg", "Magnesium"), (13, "Al", "Aluminum"),
+    (14, "Si", "Silicon"), (15, "P", "Phosphorus"), (16, "S", "Sulfur"),
+    (17, "Cl", "Chlorine"), (18, "Ar", "Argon"),
+    (19, "K", "Potassium"), (20, "Ca", "Calcium"),
+    (21, "Sc", "Scandium"), (22, "Ti", "Titanium"), (23, "V", "Vanadium"),
+    (24, "Cr", "Chromium"), (25, "Mn", "Manganese"), (26, "Fe", "Iron"),
+    (27, "Co", "Cobalt"), (28, "Ni", "Nickel"), (29, "Cu", "Copper"),
+    (30, "Zn", "Zinc"), (31, "Ga", "Gallium"), (32, "Ge", "Germanium"),
+    (33, "As", "Arsenic"), (34, "Se", "Selenium"), (35, "Br", "Bromine"),
+    (36, "Kr", "Krypton"),
+    (37, "Rb", "Rubidium"), (38, "Sr", "Strontium"),
+    (39, "Y", "Yttrium"), (40, "Zr", "Zirconium"), (41, "Nb", "Niobium"),
+    (42, "Mo", "Molybdenum"), (43, "Tc", "Technetium"), (44, "Ru", "Ruthenium"),
+    (45, "Rh", "Rhodium"), (46, "Pd", "Palladium"), (47, "Ag", "Silver"),
+    (48, "Cd", "Cadmium"), (49, "In", "Indium"), (50, "Sn", "Tin"),
+    (51, "Sb", "Antimony"), (52, "Te", "Tellurium"), (53, "I", "Iodine"),
+    (54, "Xe", "Xenon"),
+    (55, "Cs", "Cesium"), (56, "Ba", "Barium"),
+    (57, "La", "Lanthanum"), (58, "Ce", "Cerium"), (59, "Pr", "Praseodymium"),
+    (60, "Nd", "Neodymium"), (61, "Pm", "Promethium"), (62, "Sm", "Samarium"),
+    (63, "Eu", "Europium"), (64, "Gd", "Gadolinium"), (65, "Tb", "Terbium"),
+    (66, "Dy", "Dysprosium"), (67, "Ho", "Holmium"), (68, "Er", "Erbium"),
+    (69, "Tm", "Thulium"), (70, "Yb", "Ytterbium"), (71, "Lu", "Lutetium"),
+    (72, "Hf", "Hafnium"), (73, "Ta", "Tantalum"), (74, "W", "Tungsten"),
+    (75, "Re", "Rhenium"), (76, "Os", "Osmium"), (77, "Ir", "Iridium"),
+    (78, "Pt", "Platinum"), (79, "Au", "Gold"), (80, "Hg", "Mercury"),
+    (81, "Tl", "Thallium"), (82, "Pb", "Lead"), (83, "Bi", "Bismuth"),
+    (84, "Po", "Polonium"), (85, "At", "Astatine"), (86, "Rn", "Radon"),
+    (87, "Fr", "Francium"), (88, "Ra", "Radium"),
+    (89, "Ac", "Actinium"), (90, "Th", "Thorium"), (91, "Pa", "Protactinium"),
+    (92, "U", "Uranium"), (93, "Np", "Neptunium"), (94, "Pu", "Plutonium"),
+    (95, "Am", "Americium"), (96, "Cm", "Curium"), (97, "Bk", "Berkelium"),
+    (98, "Cf", "Californium"), (99, "Es", "Einsteinium"), (100, "Fm", "Fermium"),
+    (101, "Md", "Mendelevium"), (102, "No", "Nobelium"), (103, "Lr", "Lawrencium"),
+    (104, "Rf", "Rutherfordium"), (105, "Db", "Dubnium"), (106, "Sg", "Seaborgium"),
+    (107, "Bh", "Bohrium"), (108, "Hs", "Hassium"), (109, "Mt", "Meitnerium"),
+    (110, "Ds", "Darmstadtium"), (111, "Rg", "Roentgenium"), (112, "Cn", "Copernicium"),
+    (113, "Nh", "Nihonium"), (114, "Fl", "Flerovium"), (115, "Mc", "Moscovium"),
+    (116, "Lv", "Livermorium"), (117, "Ts", "Tennessine"), (118, "Og", "Oganesson"),
+]
+
+# Electron shell structure: which shells are filled
+# Maps Z to (shell_count, period, group_type)
+def electron_shell_info(Z):
+    """Return period and block (s/p/d/f) for element Z."""
+    if Z <= 2: return (1, 's')
+    if Z <= 10: return (2, 's' if Z <= 4 else 'p')
+    if Z <= 18: return (3, 's' if Z <= 12 else 'p')
+    if Z <= 36: 
+        if Z <= 20: return (4, 's')
+        if Z <= 30: return (4, 'd')
+        return (4, 'p')
+    if Z <= 54:
+        if Z <= 38: return (5, 's')
+        if Z <= 48: return (5, 'd')
+        return (5, 'p')
+    if Z <= 86:
+        if Z <= 56: return (6, 's')
+        if Z <= 71: return (6, 'f')
+        if Z <= 80: return (6, 'd')
+        return (6, 'p')
+    if Z <= 118:
+        if Z <= 88: return (7, 's')
+        if Z <= 103: return (7, 'f')
+        if Z <= 112: return (7, 'd')
+        return (7, 'p')
+    return (8, 's')
+
+# Map orbital blocks to spectral sectors
+BLOCK_SECTOR = {
+    's': 'σ₁ (Forward)',
+    'p': 'σ₂ (DM-left)',
+    'd': 'σ₃ (Center)',
+    'f': 'σ₄ (DM-right)',
+}
+
+def format_zeck(z_list):
+    """Format Zeckendorf as sum string."""
+    if not z_list:
+        return "∅"
+    return " + ".join(str(x) for x in z_list)
+
+def format_freq(f):
+    """Format frequency with appropriate unit."""
+    if f >= 1e15:
+        return f"{f/1e15:.3f} PHz"
+    elif f >= 1e12:
+        return f"{f/1e12:.3f} THz"
+    elif f >= 1e9:
+        return f"{f/1e9:.3f} GHz"
+    else:
+        return f"{f:.3e} Hz"
+
+# ==================== COMPUTE ALL ELEMENTS ====================
+
+print("=" * 120)
+print("HUSMANN FRAMEWORK: PERIODIC TABLE SPECTRAL IMPRINT INDEX")
+print("Derivation: Z → Zeck(Z) → coord → sector fractions → R-vector → f_h → lasing state")
+print(f"Lattice spacing l = {L*1e9:.1f} nm | ω_gap = {OMEGA_GAP:.4e} rad/s | J = {J_eV:.4f} eV")
+print("=" * 120)
+print()
+
+# Summary statistics
+hinge_elements = []
+bonding_elements = []
+antibonding_elements = []
+fibonacci_elements = []  # Z is itself a Fibonacci number
+
+results = []
+
+for Z, sym, name in ELEMENTS:
+    zeck = zeckendorf(Z)
+    z_idx = zeckendorf_indices(Z)
+    coord = coordination_from_zeck(z_idx)
+    f_M, f_DM, f_DE = sector_fractions(coord)
+    R3, R4, R5, mag = resonance_vector(z_idx, Z)
+    f_h = harmonic_freq(mag)
+    period, block = electron_shell_info(Z)
+    state = lasing_state(R4, R3)
+    sector = BLOCK_SECTOR.get(block, 'σ₃')
+    
+    # Check if Z is a Fibonacci number
+    is_fib = Z in FIBS
+    
+    results.append({
+        'Z': Z, 'sym': sym, 'name': name,
+        'zeck': zeck, 'z_idx': z_idx, 'coord': coord,
+        'f_M': f_M, 'f_DM': f_DM, 'f_DE': f_DE,
+        'R3': R3, 'R4': R4, 'R5': R5, 'mag': mag,
+        'f_h': f_h, 'state': state,
+        'period': period, 'block': block, 'sector': sector,
+        'is_fib': is_fib
+    })
+    
+    if state == 'hinge':
+        hinge_elements.append((Z, sym))
+    elif state == 'bonding':
+        bonding_elements.append((Z, sym))
+    elif state == 'antibonding':
+        antibonding_elements.append((Z, sym))
+    if is_fib:
+        fibonacci_elements.append((Z, sym))
+
+# Print full table
+print(f"{'Z':>3} {'Sym':>3} {'Name':<14} {'Zeckendorf':<20} {'Coord':>5} {'f_M':>6} {'f_DM':>6} "
+      f"{'|R|':>8} {'f_h':>14} {'State':<12} {'Block':>5} {'Fib':>3}")
+print("-" * 120)
+
+for r in results:
+    zstr = format_zeck(r['zeck'])
+    fstr = format_freq(r['f_h'])
+    fib_mark = " ★" if r['is_fib'] else ""
+    print(f"{r['Z']:>3} {r['sym']:>3} {r['name']:<14} {zstr:<20} {r['coord']:>5} "
+          f"{r['f_M']:>6.3f} {r['f_DM']:>6.3f} {r['mag']:>8.5f} {fstr:>14} "
+          f"{r['state']:<12} {r['block']:>5}{fib_mark}")
+
+print()
+print("=" * 80)
+print("SPECIAL ELEMENTS")
+print("=" * 80)
+print()
+print(f"Fibonacci-number elements (Z ∈ Fibonacci sequence): {len(fibonacci_elements)}")
+for z, s in fibonacci_elements:
+    print(f"  Z={z:>3} ({s})")
+
+print()
+print(f"Hinge elements (R4/R3 ≈ 1.0, coord-5 crossover): {len(hinge_elements)}")
+for z, s in hinge_elements:
+    print(f"  Z={z:>3} ({s})")
+
+print()
+print(f"Bonding elements (R4/R3 > φ, matter-dominated): {len(bonding_elements)}")
+for z, s in bonding_elements:
+    r = [x for x in results if x['Z'] == z][0]
+    print(f"  Z={z:>3} ({s}) coord={r['coord']} R4/R3={r['R4']/r['R3']:.3f}" if r['R3'] > 0 else f"  Z={z:>3} ({s})")
+
+print()
+print(f"Antibonding elements (R4/R3 < 1/φ, DM-conduit): {len(antibonding_elements)}")
+for z, s in antibonding_elements:
+    r = [x for x in results if x['Z'] == z][0]
+    print(f"  Z={z:>3} ({s}) coord={r['coord']} R4/R3={r['R4']/r['R3']:.3f}" if r['R3'] > 0 else f"  Z={z:>3} ({s})")
+
+# Print the φ-reduction patterns
+print()
+print("=" * 80)
+print("φ-REDUCTION PATTERNS IN THE PERIODIC TABLE")
+print("=" * 80)
+print()
+print("Shell closure at noble gases and the Fibonacci backbone:")
+noble_gases = [(2, "He"), (10, "Ne"), (18, "Ar"), (36, "Kr"), (54, "Xe"), (86, "Rn"), (118, "Og")]
+for z, s in noble_gases:
+    zeck = zeckendorf(z)
+    z_idx = zeckendorf_indices(z)
+    print(f"  Z={z:>3} ({s:<2}) Zeck = {format_zeck(zeck):<20} indices = {z_idx} "
+          f"  Zeck terms = {len(zeck)}")
+
+print()
+print("Alkali metals (single s electron beyond closed shell):")
+alkali = [(1,"H"), (3,"Li"), (11,"Na"), (19,"K"), (37,"Rb"), (55,"Cs"), (87,"Fr")]
+for z, s in alkali:
+    zeck = zeckendorf(z)
+    z_idx = zeckendorf_indices(z)
+    print(f"  Z={z:>3} ({s:<2}) Zeck = {format_zeck(zeck):<20} indices = {z_idx} "
+          f"  Zeck terms = {len(zeck)}")
+
+print()
+print("Fibonacci-Z elements (Z itself is F_k):")
+print("  These elements sit exactly ON the Fibonacci backbone sublattice.")
+print("  They have single-term Zeckendorf representations (maximal simplicity).")
+print("  Framework prediction: these should show anomalous spectral properties.")
+for z, s in fibonacci_elements:
+    r = [x for x in results if x['Z'] == z][0]
+    print(f"  Z={z:>3} ({s:<2}) = F_{r['z_idx'][0]} | coord={r['coord']} | "
+          f"|R|={r['mag']:.5f} | f_h={format_freq(r['f_h'])}")
+
+# Golden ratio connections in shell structure
+print()
+print("Shell electron counts and Fibonacci structure:")
+print("  s: 2 electrons  = F₃")
+print("  p: 6 electrons  = F₃ × 3")
+print("  d: 10 electrons = F₃ × 5 = F₃ × F₅")
+print("  f: 14 electrons = F₃ × 7")
+print("  Shell capacities: 2, 8, 18, 32 = 2×(1, 4, 9, 16) = 2×n²")
+print("  Zeckendorf: 2=F₃, 8=F₆, 18=F₆+F₄+F₂, 32=F₈+F₄+F₂")
+print()
+print("  The 2n² formula produces Zeckendorf decompositions that")
+print("  alternate between Fibonacci backbone terms (single F_k)")
+print("  and multi-term addresses, creating the periodic pattern.")
+```
+
 ---
 
 *This appendix derived from the Husmann Decomposition framework. Two inputs: φ (mathematics) and l = 9.3 nm (experiment). Everything else follows.*
