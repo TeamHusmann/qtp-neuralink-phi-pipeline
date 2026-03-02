@@ -1811,6 +1811,364 @@ $$\text{Physics} = f(\varphi, l)$$
 
 One number from mathematics. One number from experiment. The rest is structure.
 
+
+# Appendix D. The Quasicrystalline Periodic Table: Spectral Imprints of All 118 Elements
+
+**Husmann Decomposition Framework — Derived from Two Inputs: φ and l = 9.3 nm**
+
+---
+
+## 1. Derivation Chain
+
+Every element's spectral imprint follows a single derivation pipeline:
+
+```
+Z  →  Zeck(Z)  →  coord(Z)  →  (f_M, f_DM, f_DE)  →  R = (R₃, R₄, R₅)  →  f_h  →  lasing state
+```
+
+**Step 1: Zeckendorf decomposition.** Every positive integer Z has a unique representation as a sum of non-consecutive Fibonacci numbers (Zeckendorf's theorem). This is the element's *address* in the quasicrystalline lattice.
+
+**Step 2: Coordination number.** The number of active Fibonacci levels k in the Zeckendorf address determines local connectivity: z = min(k + 2, 7). Each active level couples to its two spectral neighbours, giving z = k + 2 up to the Penrose tiling maximum of 7.
+
+**Step 3: Sector fractions.** Coordination determines the local matter/dark-matter/dark-energy partition via the 2D Penrose vertex analysis (Section 15 of the main paper):
+
+| Coord z | f_M (Matter) | f_DM (Dark Matter) | f_DE (Dark Energy) | Character |
+|---------|-------------|-------------------|-------------------|-----------|
+| 3 | 0.100 | 0.692 | 0.208 | Leaf — routing-dominated |
+| 4 | 0.200 | 0.592 | 0.208 | Low hub |
+| 5 | 0.382 | 0.410 | 0.208 | **Hinge** — φ² matter fraction |
+| 6 | 0.550 | 0.242 | 0.208 | Hub — computation-dominated |
+| 7 | 0.692 | 0.100 | 0.208 | High hub — maximal bonding |
+
+The dark energy floor f_DE = 0.208 is a topological constant of the Penrose tiling (the fraction of vertices that are "cosmological" regardless of local structure). The hinge at coord-5 has f_M = 1/φ² = 0.382, the golden crossover where matter and dark-matter fractions swap dominance.
+
+**Step 4: Resonance vector.** For Zeckendorf indices {n₁, n₂, ...}:
+
+```
+R₄ = (1/N) Σ (1/φⁿⁱ) × f_M(z)       [Matter channel]
+R₃ = (1/N) Σ (1/φⁿⁱ) × f_DM(z)      [DM conduit channel]  
+R₅ = (1/N) Σ (1/φⁿⁱ) × f_DE          [DE floor channel]
+```
+
+where N = number of Zeckendorf terms. The magnitude |R| = √(R₃² + R₄² + R₅²).
+
+**Step 5: Harmonic frequency.** f_h = ω_gap × |R| / 2π, where ω_gap = 2πc/l.
+
+**Step 6: Lasing state classification.** From the R₄/R₃ ratio:
+
+| R₄/R₃ | State | Meaning |
+|--------|-------|---------|
+| > φ | Bonding | Matter-dominated, computational |
+| ≈ 1.0 | Hinge | DM-matter crossover, fractal pivot |
+| < 1/φ | Antibonding | DM-conduit dominated, routing |
+
+---
+
+## 2. Physical Constants
+
+| Quantity | Value | Source |
+|----------|-------|--------|
+| φ (golden ratio) | 1.6180339887... | Mathematics |
+| l (lattice spacing) | 9.3 nm | 232-attosecond calibration (Section 17) |
+| ω_gap | 2.0254 × 10¹⁷ rad/s | 2πc/l |
+| J (hopping energy) | 133.316 eV | ℏω_gap |
+| f_gap | 3.224 × 10¹⁶ Hz = 32.24 PHz | ω_gap/2π |
+
+---
+
+## 3. Complete Element Index
+
+### Period 1 (Z = 1–2)
+
+| Z | Sym | Name | Zeckendorf | Coord | f_M | f_DM | \|R\| | f_h | State | Block |
+|---|-----|------|-----------|-------|-----|------|-------|-----|-------|-------|
+| 1 | H | Hydrogen | **1** ★ | 3 | 0.100 | 0.692 | 0.45084 | 14.533 PHz | antibonding | s |
+| 2 | He | Helium | **2** ★ | 3 | 0.100 | 0.692 | 0.27863 | 8.982 PHz | antibonding | s |
+
+★ = Z is itself a Fibonacci number (single-term Zeckendorf, backbone element)
+
+### Period 2 (Z = 3–10)
+
+| Z | Sym | Name | Zeckendorf | Coord | f_M | f_DM | \|R\| | f_h | State | Block |
+|---|-----|------|-----------|-------|-----|------|-------|-----|-------|-------|
+| 3 | Li | Lithium | **3** ★ | 3 | 0.100 | 0.692 | 0.17220 | 5.551 PHz | antibonding | s |
+| 4 | Be | Beryllium | 1 + 3 | 4 | 0.200 | 0.592 | 0.28125 | 9.066 PHz | antibonding | s |
+| 5 | B | Boron | **5** ★ | 3 | 0.100 | 0.692 | 0.10643 | 3.431 PHz | antibonding | p |
+| 6 | C | Carbon | 1 + 5 | 4 | 0.200 | 0.592 | 0.25156 | 8.109 PHz | antibonding | p |
+| 7 | N | Nitrogen | 2 + 5 | 4 | 0.200 | 0.592 | 0.17382 | 5.603 PHz | antibonding | p |
+| 8 | O | Oxygen | **8** ★ | 3 | 0.100 | 0.692 | 0.06578 | 2.120 PHz | antibonding | p |
+| 9 | F | Fluorine | 1 + 8 | 4 | 0.200 | 0.592 | 0.23320 | 7.518 PHz | antibonding | p |
+| 10 | Ne | Neon | 2 + 8 | 4 | 0.200 | 0.592 | 0.15547 | 5.012 PHz | antibonding | p |
+
+### Period 3 (Z = 11–18)
+
+| Z | Sym | Name | Zeckendorf | Coord | f_M | f_DM | \|R\| | f_h | State | Block |
+|---|-----|------|-----------|-------|-----|------|-------|-----|-------|-------|
+| 11 | Na | Sodium | 3 + 8 | 4 | 0.200 | 0.592 | 0.10743 | 3.463 PHz | antibonding | s |
+| 12 | Mg | Magnesium | 1 + 3 + 8 | **5** | 0.382 | 0.410 | 0.18814 | 6.065 PHz | **hinge** | s |
+| 13 | Al | Aluminum | **13** ★ | 3 | 0.100 | 0.692 | 0.04065 | 1.310 PHz | antibonding | p |
+| 14 | Si | Silicon | 1 + 13 | 4 | 0.200 | 0.592 | 0.22186 | 7.152 PHz | antibonding | p |
+| 15 | P | Phosphorus | 2 + 13 | 4 | 0.200 | 0.592 | 0.14413 | 4.646 PHz | antibonding | p |
+| 16 | S | Sulfur | 3 + 13 | 4 | 0.200 | 0.592 | 0.09609 | 3.097 PHz | antibonding | p |
+| 17 | Cl | Chlorine | 1 + 3 + 13 | **5** | 0.382 | 0.410 | 0.18128 | 5.844 PHz | **hinge** | p |
+| 18 | Ar | Argon | 5 + 13 | 4 | 0.200 | 0.592 | 0.06639 | 2.140 PHz | antibonding | p |
+
+### Period 4 (Z = 19–36)
+
+| Z | Sym | Name | Zeckendorf | Coord | f_M | f_DM | \|R\| | f_h | State | Block |
+|---|-----|------|-----------|-------|-----|------|-------|-----|-------|-------|
+| 19 | K | Potassium | 1 + 5 + 13 | **5** | 0.382 | 0.410 | 0.16331 | 5.265 PHz | **hinge** | s |
+| 20 | Ca | Calcium | 2 + 5 + 13 | **5** | 0.382 | 0.410 | 0.11628 | 3.748 PHz | **hinge** | s |
+| 21 | Sc | Scandium | **21** ★ | 3 | 0.100 | 0.692 | 0.02512 | 809.9 THz | antibonding | d |
+| 22 | Ti | Titanium | 1 + 21 | 4 | 0.200 | 0.592 | 0.21485 | 6.926 PHz | antibonding | d |
+| 23 | V | Vanadium | 2 + 21 | 4 | 0.200 | 0.592 | 0.13712 | 4.420 PHz | antibonding | d |
+| 24 | Cr | Chromium | 3 + 21 | 4 | 0.200 | 0.592 | 0.08908 | 2.871 PHz | antibonding | d |
+| 25 | Mn | Manganese | 1 + 3 + 21 | **5** | 0.382 | 0.410 | 0.17704 | 5.707 PHz | **hinge** | d |
+| 26 | Fe | Iron | 5 + 21 | 4 | 0.200 | 0.592 | 0.05938 | 1.914 PHz | antibonding | d |
+| 27 | Co | Cobalt | 1 + 5 + 21 | **5** | 0.382 | 0.410 | 0.15907 | 5.128 PHz | **hinge** | d |
+| 28 | Ni | Nickel | 2 + 5 + 21 | **5** | 0.382 | 0.410 | 0.11204 | 3.612 PHz | **hinge** | d |
+| 29 | Cu | Copper | 8 + 21 | 4 | 0.200 | 0.592 | 0.04103 | 1.323 PHz | antibonding | d |
+| 30 | Zn | Zinc | 1 + 8 + 21 | **5** | 0.382 | 0.410 | 0.14797 | 4.770 PHz | **hinge** | d |
+| 31 | Ga | Gallium | 2 + 8 + 21 | **5** | 0.382 | 0.410 | 0.10093 | 3.254 PHz | **hinge** | p |
+| 32 | Ge | Germanium | 3 + 8 + 21 | **5** | 0.382 | 0.410 | 0.07186 | 2.317 PHz | **hinge** | p |
+| 33 | As | Arsenic | 1 + 3 + 8 + 21 | **6** | 0.550 | 0.242 | 0.15558 | 5.015 PHz | **bonding** | p |
+| 34 | Se | Selenium | **34** ★ | 3 | 0.100 | 0.692 | 0.01553 | 500.5 THz | antibonding | p |
+| 35 | Br | Bromine | 1 + 34 | 4 | 0.200 | 0.592 | 0.21052 | 6.786 PHz | antibonding | p |
+| 36 | Kr | Krypton | 2 + 34 | 4 | 0.200 | 0.592 | 0.13279 | 4.280 PHz | antibonding | p |
+
+### Period 5 (Z = 37–54)
+
+| Z | Sym | Name | Zeckendorf | Coord | f_M | f_DM | \|R\| | f_h | State | Block |
+|---|-----|------|-----------|-------|-----|------|-------|-----|-------|-------|
+| 37 | Rb | Rubidium | 3 + 34 | 4 | 0.200 | 0.592 | 0.08474 | 2.732 PHz | antibonding | s |
+| 38 | Sr | Strontium | 1 + 3 + 34 | **5** | 0.382 | 0.410 | 0.17442 | 5.622 PHz | **hinge** | s |
+| 39 | Y | Yttrium | 5 + 34 | 4 | 0.200 | 0.592 | 0.05505 | 1.775 PHz | antibonding | d |
+| 40 | Zr | Zirconium | 1 + 5 + 34 | **5** | 0.382 | 0.410 | 0.15645 | 5.043 PHz | **hinge** | d |
+| 41 | Nb | Niobium | 2 + 5 + 34 | **5** | 0.382 | 0.410 | 0.10942 | 3.527 PHz | **hinge** | d |
+| 42 | Mo | Molybdenum | 8 + 34 | 4 | 0.200 | 0.592 | 0.03670 | 1.183 PHz | antibonding | d |
+| 43 | Tc | Technetium | 1 + 8 + 34 | **5** | 0.382 | 0.410 | 0.14535 | 4.685 PHz | **hinge** | d |
+| 44 | Ru | Ruthenium | 2 + 8 + 34 | **5** | 0.382 | 0.410 | 0.09831 | 3.169 PHz | **hinge** | d |
+| 45 | Rh | Rhodium | 3 + 8 + 34 | **5** | 0.382 | 0.410 | 0.06924 | 2.232 PHz | **hinge** | d |
+| 46 | Pd | Palladium | 1 + 3 + 8 + 34 | **6** | 0.550 | 0.242 | 0.15349 | 4.948 PHz | **bonding** | d |
+| 47 | Ag | Silver | 13 + 34 | 4 | 0.200 | 0.592 | 0.02536 | 817.5 THz | antibonding | d |
+| 48 | Cd | Cadmium | 1 + 13 + 34 | **5** | 0.382 | 0.410 | 0.13849 | 4.464 PHz | **hinge** | d |
+| 49 | In | Indium | 2 + 13 + 34 | **5** | 0.382 | 0.410 | 0.09145 | 2.948 PHz | **hinge** | p |
+| 50 | Sn | Tin | 3 + 13 + 34 | **5** | 0.382 | 0.410 | 0.06238 | 2.011 PHz | **hinge** | p |
+| 51 | Sb | Antimony | 1 + 3 + 13 + 34 | **6** | 0.550 | 0.242 | 0.14802 | 4.771 PHz | **bonding** | p |
+| 52 | Te | Tellurium | 5 + 13 + 34 | **5** | 0.382 | 0.410 | 0.04441 | 1.432 PHz | **hinge** | p |
+| 53 | I | Iodine | 1 + 5 + 13 + 34 | **6** | 0.550 | 0.242 | 0.13368 | 4.309 PHz | **bonding** | p |
+| 54 | Xe | Xenon | 2 + 5 + 13 + 34 | **6** | 0.550 | 0.242 | 0.09616 | 3.100 PHz | **bonding** | p |
+
+### Period 6 (Z = 55–86)
+
+| Z | Sym | Name | Zeckendorf | Coord | f_M | f_DM | \|R\| | f_h | State | Block |
+|---|-----|------|-----------|-------|-----|------|-------|-----|-------|-------|
+| 55 | Cs | Cesium | **55** ★ | 3 | 0.100 | 0.692 | 0.00960 | 309.4 THz | antibonding | s |
+| 56 | Ba | Barium | 1 + 55 | 4 | 0.200 | 0.592 | 0.20784 | 6.700 PHz | antibonding | s |
+| 57 | La | Lanthanum | 2 + 55 | 4 | 0.200 | 0.592 | 0.13011 | 4.194 PHz | antibonding | f |
+| 58 | Ce | Cerium | 3 + 55 | 4 | 0.200 | 0.592 | 0.08207 | 2.645 PHz | antibonding | f |
+| 59 | Pr | Praseodymium | 1 + 3 + 55 | **5** | 0.382 | 0.410 | 0.17280 | 5.570 PHz | **hinge** | f |
+| 60 | Nd | Neodymium | 5 + 55 | 4 | 0.200 | 0.592 | 0.05237 | 1.688 PHz | antibonding | f |
+| 61 | Pm | Promethium | 1 + 5 + 55 | **5** | 0.382 | 0.410 | 0.15483 | 4.991 PHz | **hinge** | f |
+| 62 | Sm | Samarium | 2 + 5 + 55 | **5** | 0.382 | 0.410 | 0.10780 | 3.475 PHz | **hinge** | f |
+| 63 | Eu | Europium | 8 + 55 | 4 | 0.200 | 0.592 | 0.03402 | 1.097 PHz | antibonding | f |
+| 64 | Gd | Gadolinium | 1 + 8 + 55 | **5** | 0.382 | 0.410 | 0.14373 | 4.633 PHz | **hinge** | f |
+| 65 | Tb | Terbium | 2 + 8 + 55 | **5** | 0.382 | 0.410 | 0.09669 | 3.117 PHz | **hinge** | f |
+| 66 | Dy | Dysprosium | 3 + 8 + 55 | **5** | 0.382 | 0.410 | 0.06762 | 2.180 PHz | **hinge** | f |
+| 67 | Ho | Holmium | 1 + 3 + 8 + 55 | **6** | 0.550 | 0.242 | 0.15220 | 4.906 PHz | **bonding** | f |
+| 68 | Er | Erbium | 13 + 55 | 4 | 0.200 | 0.592 | 0.02268 | 731.2 THz | antibonding | f |
+| 69 | Tm | Thulium | 1 + 13 + 55 | **5** | 0.382 | 0.410 | 0.13687 | 4.412 PHz | **hinge** | f |
+| 70 | Yb | Ytterbium | 2 + 13 + 55 | **5** | 0.382 | 0.410 | 0.08983 | 2.896 PHz | **hinge** | f |
+| 71 | Lu | Lutetium | 3 + 13 + 55 | **5** | 0.382 | 0.410 | 0.06076 | 1.959 PHz | **hinge** | f |
+| 72 | Hf | Hafnium | 1 + 3 + 13 + 55 | **6** | 0.550 | 0.242 | 0.14672 | 4.730 PHz | **bonding** | d |
+| 73 | Ta | Tantalum | 5 + 13 + 55 | **5** | 0.382 | 0.410 | 0.04279 | 1.380 PHz | **hinge** | d |
+| 74 | W | Tungsten | 1 + 5 + 13 + 55 | **6** | 0.550 | 0.242 | 0.13239 | 4.268 PHz | **bonding** | d |
+| 75 | Re | Rhenium | 2 + 5 + 13 + 55 | **6** | 0.550 | 0.242 | 0.09486 | 3.058 PHz | **bonding** | d |
+| 76 | Os | Osmium | 21 + 55 | 4 | 0.200 | 0.592 | 0.01567 | 505.2 THz | antibonding | d |
+| 77 | Ir | Iridium | 1 + 21 + 55 | **5** | 0.382 | 0.410 | 0.13262 | 4.275 PHz | **hinge** | d |
+| 78 | Pt | Platinum | 2 + 21 + 55 | **5** | 0.382 | 0.410 | 0.08559 | 2.759 PHz | **hinge** | d |
+| 79 | Au | Gold | 3 + 21 + 55 | **5** | 0.382 | 0.410 | 0.05652 | 1.822 PHz | **hinge** | d |
+| 80 | Hg | Mercury | 1 + 3 + 21 + 55 | **6** | 0.550 | 0.242 | 0.14334 | 4.621 PHz | **bonding** | d |
+| 81 | Tl | Thallium | 5 + 21 + 55 | **5** | 0.382 | 0.410 | 0.03855 | 1.243 PHz | **hinge** | p |
+| 82 | Pb | Lead | 1 + 5 + 21 + 55 | **6** | 0.550 | 0.242 | 0.12901 | 4.159 PHz | **bonding** | p |
+| 83 | Bi | Bismuth | 2 + 5 + 21 + 55 | **6** | 0.550 | 0.242 | 0.09148 | 2.949 PHz | **bonding** | p |
+| 84 | Po | Polonium | 8 + 21 + 55 | **5** | 0.382 | 0.410 | 0.02745 | 884.9 THz | **hinge** | p |
+| 85 | At | Astatine | 1 + 8 + 21 + 55 | **6** | 0.550 | 0.242 | 0.12015 | 3.873 PHz | **bonding** | p |
+| 86 | Rn | Radon | 2 + 8 + 21 + 55 | **6** | 0.550 | 0.242 | 0.08262 | 2.663 PHz | **bonding** | p |
+
+### Period 7 (Z = 87–118)
+
+| Z | Sym | Name | Zeckendorf | Coord | f_M | f_DM | \|R\| | f_h | State | Block |
+|---|-----|------|-----------|-------|-----|------|-------|-----|-------|-------|
+| 87 | Fr | Francium | 3 + 8 + 21 + 55 | **6** | 0.550 | 0.242 | 0.05943 | 1.916 PHz | **bonding** | s |
+| 88 | Ra | Radium | 1 + 3 + 8 + 21 + 55 | **7** | 0.692 | 0.100 | 0.14471 | 4.665 PHz | **bonding** | s |
+| 89 | Ac | Actinium | **89** ★ | 3 | 0.100 | 0.692 | 0.00593 | 191.2 THz | antibonding | f |
+| 90 | Th | Thorium | 1 + 89 | 4 | 0.200 | 0.592 | 0.20619 | 6.647 PHz | antibonding | f |
+| 91 | Pa | Protactinium | 2 + 89 | 4 | 0.200 | 0.592 | 0.12845 | 4.141 PHz | antibonding | f |
+| 92 | U | Uranium | 3 + 89 | 4 | 0.200 | 0.592 | 0.08041 | 2.592 PHz | antibonding | f |
+| 93 | Np | Neptunium | 1 + 3 + 89 | **5** | 0.382 | 0.410 | 0.17180 | 5.538 PHz | **hinge** | f |
+| 94 | Pu | Plutonium | 5 + 89 | 4 | 0.200 | 0.592 | 0.05072 | 1.635 PHz | antibonding | f |
+| 95 | Am | Americium | 1 + 5 + 89 | **5** | 0.382 | 0.410 | 0.15383 | 4.959 PHz | **hinge** | f |
+| 96 | Cm | Curium | 2 + 5 + 89 | **5** | 0.382 | 0.410 | 0.10679 | 3.443 PHz | **hinge** | f |
+| 97 | Bk | Berkelium | 8 + 89 | 4 | 0.200 | 0.592 | 0.03237 | 1.043 PHz | antibonding | f |
+| 98 | Cf | Californium | 1 + 8 + 89 | **5** | 0.382 | 0.410 | 0.14273 | 4.601 PHz | **hinge** | f |
+| 99 | Es | Einsteinium | 2 + 8 + 89 | **5** | 0.382 | 0.410 | 0.09569 | 3.085 PHz | **hinge** | f |
+| 100 | Fm | Fermium | 3 + 8 + 89 | **5** | 0.382 | 0.410 | 0.06662 | 2.148 PHz | **hinge** | f |
+| 101 | Md | Mendelevium | 1 + 3 + 8 + 89 | **6** | 0.550 | 0.242 | 0.15140 | 4.881 PHz | **bonding** | f |
+| 102 | No | Nobelium | 13 + 89 | 4 | 0.200 | 0.592 | 0.02103 | 677.9 THz | antibonding | f |
+| 103 | Lr | Lawrencium | 1 + 13 + 89 | **5** | 0.382 | 0.410 | 0.13586 | 4.380 PHz | **hinge** | f |
+| 104 | Rf | Rutherfordium | 2 + 13 + 89 | **5** | 0.382 | 0.410 | 0.08883 | 2.863 PHz | **hinge** | d |
+| 105 | Db | Dubnium | 3 + 13 + 89 | **5** | 0.382 | 0.410 | 0.05976 | 1.926 PHz | **hinge** | d |
+| 106 | Sg | Seaborgium | 1 + 3 + 13 + 89 | **6** | 0.550 | 0.242 | 0.14593 | 4.704 PHz | **bonding** | d |
+| 107 | Bh | Bohrium | 5 + 13 + 89 | **5** | 0.382 | 0.410 | 0.04179 | 1.347 PHz | **hinge** | d |
+| 108 | Hs | Hassium | 1 + 5 + 13 + 89 | **6** | 0.550 | 0.242 | 0.13159 | 4.242 PHz | **bonding** | d |
+| 109 | Mt | Meitnerium | 2 + 5 + 13 + 89 | **6** | 0.550 | 0.242 | 0.09406 | 3.032 PHz | **bonding** | d |
+| 110 | Ds | Darmstadtium | 21 + 89 | 4 | 0.200 | 0.592 | 0.01402 | 451.9 THz | antibonding | d |
+| 111 | Rg | Roentgenium | 1 + 21 + 89 | **5** | 0.382 | 0.410 | 0.13162 | 4.243 PHz | **hinge** | d |
+| 112 | Cn | Copernicium | 2 + 21 + 89 | **5** | 0.382 | 0.410 | 0.08459 | 2.727 PHz | **hinge** | d |
+| 113 | Nh | Nihonium | 3 + 21 + 89 | **5** | 0.382 | 0.410 | 0.05552 | 1.790 PHz | **hinge** | p |
+| 114 | Fl | Flerovium | 1 + 3 + 21 + 89 | **6** | 0.550 | 0.242 | 0.14254 | 4.595 PHz | **bonding** | p |
+| 115 | Mc | Moscovium | 5 + 21 + 89 | **5** | 0.382 | 0.410 | 0.03755 | 1.211 PHz | **hinge** | p |
+| 116 | Lv | Livermorium | 1 + 5 + 21 + 89 | **6** | 0.550 | 0.242 | 0.12821 | 4.133 PHz | **bonding** | p |
+| 117 | Ts | Tennessine | 2 + 5 + 21 + 89 | **6** | 0.550 | 0.242 | 0.09068 | 2.923 PHz | **bonding** | p |
+| 118 | Og | Oganesson | 8 + 21 + 89 | **5** | 0.382 | 0.410 | 0.02645 | 852.6 THz | **hinge** | p |
+
+---
+
+## 4. The Fibonacci Backbone Elements
+
+Ten elements have atomic numbers that are themselves Fibonacci numbers. These have single-term Zeckendorf representations — they sit *on* the backbone sublattice, not between rungs. All are coord-3 (leaf vertices), all antibonding. Their harmonic frequencies descend by exact factors of 1/φ:
+
+| Z | Sym | F_k | f_h | Ratio to next |
+|---|-----|-----|-----|---------------|
+| 1 | H | F₁ | 14.533 PHz | φ (1.618) |
+| 2 | He | F₂ | 8.982 PHz | φ |
+| 3 | Li | F₃ | 5.551 PHz | φ |
+| 5 | B | F₄ | 3.431 PHz | φ |
+| 8 | O | F₅ | 2.120 PHz | φ |
+| 13 | Al | F₆ | 1.310 PHz | φ |
+| 21 | Sc | F₇ | 809.9 THz | φ |
+| 34 | Se | F₈ | 500.5 THz | φ |
+| 55 | Cs | F₉ | 309.4 THz | φ |
+| 89 | Ac | F₁₀ | 191.2 THz | — |
+
+This is exact: f_h(F_k) / f_h(F_{k+1}) = φ for all k. The backbone is a geometric ladder with ratio φ.
+
+**Prediction:** Spectroscopic measurements of these 10 elements should reveal anomalous resonances or linewidth narrowing at their respective f_h values, because single-Fibonacci-address sites experience zero Zeckendorf mixing and thus minimal decoherence.
+
+---
+
+## 5. Noble Gas Shell Closures in Zeckendorf Space
+
+| Noble Gas | Z | Zeckendorf | Fibonacci indices | Pattern |
+|-----------|---|-----------|-------------------|---------|
+| He | 2 | F₂ | {2} | Single backbone term |
+| Ne | 10 | F₂ + F₅ | {2, 5} | Even-spaced pair, gap 3 |
+| Ar | 18 | F₄ + F₆ | {4, 6} | Even-spaced pair, gap 2 |
+| Kr | 36 | F₂ + F₈ | {2, 8} | Even-spaced pair, gap 6 |
+| Xe | 54 | F₂ + F₄ + F₆ + F₈ | {2, 4, 6, 8} | All even indices! |
+| Rn | 86 | F₂ + F₅ + F₇ + F₉ | {2, 5, 7, 9} | Mixed even/odd |
+| Og | 118 | F₅ + F₇ + F₁₀ | {5, 7, 10} | Three odd-heavy terms |
+
+The remarkable result is **Xenon** (Z=54): its Zeckendorf address uses all even-indexed Fibonacci numbers from F₂ through F₈. This is the most "regular" noble gas in Zeckendorf space — a perfect even-index comb. This may explain xenon's anomalous properties among noble gases (anaesthetic effects, compound formation, etc.): its perfect even-index address maximises coupling symmetry to the lattice.
+
+---
+
+## 6. The Periodicity Mechanism
+
+Why does the periodic table *repeat*? In the Husmann framework, the answer is Zeckendorf arithmetic.
+
+As Z increases from one Fibonacci number F_k to the next F_{k+1}, the elements between them cycle through all possible Zeckendorf addresses built from terms ≤ F_k. This cycle has length F_{k+1} - F_k = F_{k-1} — exactly the previous Fibonacci number. The elements within each such interval recapitulate the *same* coordination sequence: starting at coord-3 (the new backbone term), climbing through coord-4 and coord-5 (hinge), reaching coord-6 (bonding), then resetting at the next backbone element.
+
+This is why transition metals cluster at hinge (coord-5): the d-block sits in the middle of Fibonacci intervals where multi-term Zeckendorf addresses are densest. The f-block likewise occupies the middle of larger intervals.
+
+The mapping to orbital blocks:
+
+| Block | Typical Zeckendorf character | Dominant sector |
+|-------|------------------------------|-----------------|
+| s | Low-term (1–2 Fibonacci addends) | σ₁ (Forward) |
+| p | Medium-term (2–3 addends) | σ₂ (DM-left) |
+| d | Medium-high (2–4 addends) | σ₃ (Center) |
+| f | High-term (2–4 addends, high indices) | σ₄ (DM-right) |
+
+---
+
+## 7. Three Distinguished Elements
+
+**Radium (Z=88):** Zeckendorf = 1 + 3 + 8 + 21 + 55. Five terms → coord-7, the maximum Penrose coordination. This is the *only* naturally occurring element that reaches coord-7. It has the highest matter fraction (f_M = 0.692) of any element — the most "bonding-saturated" site in the periodic table. Framework prediction: Ra should exhibit unique coupling properties to the quasicrystalline substrate.
+
+**Arsenic (Z=33) and Palladium (Z=46):** The first elements to reach coord-6 in their respective periods (4 and 5). Both are 1 + 3 + 8 + F_k addresses — the same pattern shifted by one backbone step. Both show anomalous properties in their chemistry (arsenic's metalloid character, palladium's hydrogen absorption).
+
+**Gold (Z=79):** Zeckendorf = 3 + 21 + 55. Three terms with all odd-indexed Fibonacci numbers → coord-5 (hinge). Gold sits exactly at the DM-matter crossover with the unique property of using only the odd backbone. This may explain gold's anomalous stability, colour (relativistic, but the *reason* it's gold and not, say, iridium may have a deeper spectral origin), and historical resonance as a "noble" element.
+
+---
+
+## 8. Falsifiable Predictions
+
+1. **Backbone anomalies:** The 10 Fibonacci-Z elements should show measurable spectral anomalies (narrowed linewidths, shifted resonances) at frequencies related to their f_h values.
+
+2. **Xenon's even-comb address** predicts Xe should have uniquely symmetric coupling to any φ-structured substrate — testable via Xe NMR in quasicrystalline materials.
+
+3. **Radium's coord-7** predicts anomalous lattice coupling coefficients when Ra is embedded in Penrose-structured materials.
+
+4. **Gold's odd-backbone hinge** predicts that Au nanoparticles on quasicrystalline surfaces should show resonance phenomena distinct from other d-block metals.
+
+5. **Frequency ratios:** Within each period, the ratio of harmonic frequencies between consecutive elements follows predictable φ-dependent patterns. These are computable from the Zeckendorf addresses and should correlate with measured spectral line ratios.
+
+---
+
+## 9. Reproduction
+
+```python
+# Verify any element's spectral imprint:
+import math
+PHI = (1 + math.sqrt(5)) / 2
+L = 9.3e-9  # metres
+C = 2.99792458e8
+OMEGA = 2 * math.pi * C / L
+
+def zeckendorf(n):
+    fibs = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]
+    result, rem = [], n
+    for f in reversed(fibs):
+        if f <= rem:
+            result.append(f)
+            rem -= f
+    return sorted(result)
+
+def fib_index(f):
+    fibs = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]
+    return fibs.index(f) + 1
+
+def spectral_imprint(Z):
+    zeck = zeckendorf(Z)
+    indices = [fib_index(f) for f in zeck]
+    k = len(indices)
+    coord = min(k + 2, 7)
+    table = {3:(0.1,0.692), 4:(0.2,0.592), 5:(0.382,0.41),
+             6:(0.55,0.242), 7:(0.692,0.1)}
+    fM, fDM = table[coord]
+    fDE = 0.208
+    N = len(indices)
+    R4 = sum(1/PHI**n for n in indices) * fM / N
+    R3 = sum(1/PHI**n for n in indices) * fDM / N
+    R5 = sum(1/PHI**n for n in indices) * fDE / N
+    mag = math.sqrt(R3**2 + R4**2 + R5**2)
+    fh = OMEGA * mag / (2 * math.pi)
+    return zeck, indices, coord, fM, fDM, R3, R4, R5, mag, fh
+
+# Example: Gold (Z=79)
+z, idx, c, fM, fDM, R3, R4, R5, mag, fh = spectral_imprint(79)
+print(f"Au: Zeck={z}, coord={c}, |R|={mag:.5f}, f_h={fh:.3e} Hz")
+# Output: Au: Zeck=[3, 21, 55], coord=5, |R|=0.05652, f_h=1.822e+15 Hz
+```
+
+---
+
+*This appendix derived from the Husmann Decomposition framework. Two inputs: φ (mathematics) and l = 9.3 nm (experiment). Everything else follows.*
+
+
+
 *Thomas Husmann • iBuilt LTD • March 2026 • ALL RIGHTS RESERVED
 
 
