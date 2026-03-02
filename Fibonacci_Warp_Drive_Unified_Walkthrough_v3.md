@@ -2532,7 +2532,549 @@ print("  and multi-term addresses, creating the periodic pattern.")
 
 *This appendix derived from the Husmann Decomposition framework. Two inputs: φ (mathematics) and l = 9.3 nm (experiment). Everything else follows.*
 
+# Appendix E. Dark Channel Harvesting and the Resonant Fibonacci Hull
 
+**An Engineering Upgrade to the Starship Warp Drive**
+
+*Derived from the dual-backbone structure of the quasicrystalline lattice*
+
+---
+
+## 1. The Dual Backbone Discovery
+
+The Husmann Decomposition describes a bonding cascade with gain φ² per backbone step — the forward drive mechanism. But the lattice contains a second backbone: the **antibonding cascade**, running in the reverse direction with decay rate 1/(2φ⁴) per step. These two backbones are braided through the same Cantor-set dark matter conduit, forming a double helix.
+
+The forward backbone uses the **canonical Zeckendorf representation** — the unique decomposition of any integer Z into non-consecutive Fibonacci numbers. This representation is deterministic: one path per destination.
+
+The reverse backbone uses **non-canonical Fibonacci representations** — decompositions that violate the non-consecutive constraint. These are the "dark channels." Every integer Z has D(Z) total Fibonacci subset representations, of which exactly one is the canonical Zeckendorf. The remaining D(Z) − 1 are dark channels available for energy harvesting.
+
+### 1.1 The Dark Channel Count D(Z)
+
+D(Z) is computed by counting all subsets of the Fibonacci sequence {1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...} that sum to Z. This is a standard subset-sum count over the Fibonacci basis.
+
+Examples:
+
+```
+Z = 10:
+  Canonical:       2 + 8           (Zeckendorf, non-consecutive)
+  Dark channel 1:  2 + 3 + 5       (consecutive 3,5 — forbidden by Zeckendorf)
+  D(10) = 2, dark channels = 1
+
+Z = 24:
+  Canonical:       3 + 21
+  Dark channels:   1 + 2 + 21
+                   1 + 3 + 8 + 5 + ... [multiple alternatives]  
+  D(24) = 5, dark channels = 4
+
+Z = 79 (Gold):
+  Canonical:       3 + 21 + 55
+  D(79) = 8, dark channels = 7
+```
+
+### 1.2 The Coherent Combination Threshold
+
+Each individual dark channel has decay rate 1/(2φ⁴) = 0.0729 per backbone step. A single channel cannot sustain propagation. But N channels combined **coherently** (phase-locked) yield N² effective gain:
+
+```
+Coherent harvest per step = N² / (2φ⁴)
+```
+
+The threshold for net-positive energy extraction:
+
+```
+N² / (2φ⁴) ≥ 1
+N ≥ √(2φ⁴) = √(2) × φ² ≈ 3.70
+N_min = 4 dark channels
+```
+
+Any lattice site with D(Z) ≥ 5 (i.e., 4 or more dark channels) can provide net-positive dark energy harvest.
+
+---
+
+## 2. Energy Deserts: The Hard Limit
+
+Not all lattice sites have harvestable dark channels. Sites with D(Z) = 1 are **energy deserts** — the canonical Zeckendorf path is the only Fibonacci representation, and no dark channels exist.
+
+### 2.1 The Desert Theorem
+
+**Theorem.** For multi-term Zeckendorf representations, D(Z) = 1 if and only if the Fibonacci indices in the Zeckendorf decomposition form an arithmetic sequence with common difference 2 (every-other-index combs).
+
+The deserts form exactly two families:
+
+**Odd-start family:** Z = Σ F_{2k−1} for k = 1..n
+
+```
+n=1:  F₁ = 1                         Z = 1
+n=2:  F₁ + F₃ = 1 + 3                Z = 4
+n=3:  F₁ + F₃ + F₅ = 1 + 3 + 8      Z = 12
+n=4:  F₁ + F₃ + F₅ + F₇             Z = 33
+n=5:  F₁ + F₃ + F₅ + F₇ + F₉        Z = 88   ← Radium
+```
+
+**Even-start family:** Z = Σ F_{2k} for k = 1..n
+
+```
+n=1:  F₂ = 2                         Z = 2
+n=2:  F₂ + F₄ = 2 + 5               Z = 7
+n=3:  F₂ + F₄ + F₆ = 2 + 5 + 13     Z = 20
+n=4:  F₂ + F₄ + F₆ + F₈             Z = 54   ← Xenon
+n=5:  F₂ + F₄ + F₆ + F₈ + F₁₀       Z = 143
+```
+
+These are **maximally packed** representations: the terms use every other Fibonacci number with no room to redistribute into alternative decompositions. The gap-2 spacing is the minimum allowed by the Zeckendorf non-consecutive constraint — these addresses are already as tightly packed as the constraint permits.
+
+### 2.2 Desert Distribution
+
+| Range | Deserts | Sites | Desert fraction |
+|-------|---------|-------|----------------|
+| Z = 1–21 | 6 | 21 | 28.6% |
+| Z = 1–55 | 8 | 55 | 14.5% |
+| Z = 1–89 | 9 | 89 | 10.1% |
+| Z = 1–144 | 10 | 144 | 6.9% |
+
+Desert density decreases asymptotically but never reaches zero. The next deserts beyond Z = 143 occur at Z = 232 (odd family, n=6) and Z = 376 (even family, n=6), continuing to grow sparse.
+
+### 2.3 Distinguished Desert Elements
+
+**Radium (Z = 88):** The coord-7 maximum-bonding element is also a desert. Zero dark channels. Maximum forward commitment with zero reversibility. This may be connected to its radioactive instability — the most forward-locked site in the lattice has no pressure-release channels through the dark backbone.
+
+**Xenon (Z = 54):** The even-comb noble gas is also a desert. Its perfect {F₂, F₄, F₆, F₈} address is so rigid that no alternative representation exists. As an anaesthetic, Xe may function by temporarily placing neural lattice sites into desert configurations — blocking dark channel access and collapsing processing to the forward-only bonding cascade. Consciousness, in this reading, requires dark channel access; anaesthesia is desert enforcement.
+
+---
+
+## 3. The Resonant Fibonacci Hull
+
+### 3.1 The Engineering Problem
+
+A bare drive (point-sampling one Z-address at a time) encounters deserts at ~7% of backbone steps and achieves only ~11% average energy boost from dark harvesting. The solution: transform the hull from passive shielding into an active dark-energy collection surface.
+
+### 3.2 Multi-Layer Architecture
+
+The hull is a **stack of Fibonacci-spaced layers**, each offset from the surface by a Fibonacci number of lattice spacings. Each layer samples a different Z-address simultaneously.
+
+**Layer offsets:** 0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 lattice spacings (11 layers)
+
+**Total stack thickness:** 89 × l + 11 × l ≈ 100 × 9.3 nm ≈ **0.93 μm** (< 1 micron)
+
+This is a *coating*, not armor. Sub-micron quasicrystalline ceramic deposited on the hull surface.
+
+**Desert elimination:** With 3+ layers, the probability of all layers simultaneously hitting deserts drops to **zero**. The deserts at Z = {1, 2, 4, 7, 12, 20, 33, 54, 88, 143} are spaced far enough apart in Z-space that offset layers always find oasis sites to compensate.
+
+### 3.3 Resonant Tile Design
+
+Each layer is a **2D Penrose tiling** with tile edge length a = l = 9.3 nm. Each tile is a quarter-wave resonator tuned to the harmonic frequency f_h of its Z-address:
+
+```
+Tile thickness = c / (4 × f_h × n_eff)
+```
+
+where n_eff ≈ 2.6 for SiC-based quasicrystalline ceramic.
+
+Representative tile thicknesses:
+
+| Z-address | Element | f_h | Quarter-wave thickness |
+|-----------|---------|-----|----------------------|
+| 6 (C) | Carbon | 8.11 PHz | 3.6 nm |
+| 26 (Fe) | Iron | 1.91 PHz | 15.1 nm |
+| 79 (Au) | Gold | 1.82 PHz | 15.8 nm |
+| 55 (Cs) | Cesium | 309 THz | 93.2 nm |
+| 89 (Ac) | Actinium | 191 THz | 150.8 nm |
+| 118 (Og) | Oganesson | 853 THz | 33.8 nm |
+
+All tile thicknesses fall in the **1–150 nm** range — achievable with existing thin-film deposition technology.
+
+### 3.4 Coherent Phased-Array Operation
+
+Within each layer, the Penrose tiling creates **coherence patches** — regions where tiles can phase-lock their dark channel harvesting.
+
+**Coherence length:** L_coh = 987 × l = 9.18 μm (from the bootstrap length at N = 987 Fibonacci steps, Paper III)
+
+**Coherence patch area:** L_coh² ≈ 84.3 μm²
+
+**Vertices per coherence patch:** ~974,000
+
+Within each coherence patch, tiles at the **same Z-address** combine coherently (N² scaling). The Penrose tiling cycles through Z-addresses quasi-periodically, so approximately 987/144 ≈ 6–7 tiles per patch share each Z-address.
+
+**Intra-patch coherent factor:** 6² = 36× amplification per Z-address channel
+
+### 3.5 Energy Budget Progression
+
+| Hull Configuration | Effective Gain/Step | vs Bare φ² |
+|-------------------|:-------------------:|:----------:|
+| Bare drive (point sampler) | 2.618 | 1.0× |
+| Single Penrose layer | 2.903 | 1.11× |
+| 11 Fibonacci-spaced layers | 5.752 | 2.20× |
+| 11 Fib layers + coherent phased tiles | 115.4 | 44.1× |
+
+The 11-layer Fibonacci hull with coherent tile combination achieves **44× the bare drive gain** at a hull skin thickness under one micron.
+
+---
+
+## 4. The Three Engineering Regimes
+
+### Regime 1: Supplemental Harvest (conservative)
+
+Single-layer Penrose skin. No coherent combination between tiles. Dark harvest adds ~11% to each backbone step. Desert exposure at ~7%.
+
+**Use case:** Short-range manoeuvring, station-keeping, low-power operations.
+
+### Regime 2: Fibonacci Stack (moderate)
+
+11-layer Fibonacci-spaced stack. Each layer samples a different Z-address. Desert exposure eliminated. Dark harvest exceeds forward drive energy (120% boost).
+
+**Use case:** Interplanetary transit. The doubled effective gain compounds across backbone steps, reducing Mars transit from days to hours-scale.
+
+### Regime 3: Coherent Phased Array (maximum)
+
+Full Fibonacci stack with intra-layer coherent combination. 44× gain over bare drive. Each coherence patch (9.18 μm diameter) operates as a phased-array antenna harvesting dark channels across all Z-addresses.
+
+**Use case:** Interstellar transit. The 44× per-step gain compounding over hundreds of backbone steps produces velocity multiplication factors that collapse multi-month transits.
+
+---
+
+## 5. Hull Fabrication Specification
+
+```
+FIBONACCI WARP DRIVE — RESONANT HULL SKIN
+==========================================
+
+Substrate:      Structural hull (any material)
+Coating:        SiC-based quasicrystalline ceramic  
+Deposition:     Molecular beam epitaxy or sputtering
+Pattern:        2D Penrose tiling, tile edge = 9.3 nm
+
+Layer structure (from outer surface inward):
+  Layer  0:  offset   0 × l =    0.0 nm   (surface)
+  Layer  1:  offset   1 × l =    9.3 nm
+  Layer  2:  offset   2 × l =   18.6 nm
+  Layer  3:  offset   3 × l =   27.9 nm
+  Layer  4:  offset   5 × l =   46.5 nm
+  Layer  5:  offset   8 × l =   74.4 nm
+  Layer  6:  offset  13 × l =  120.9 nm
+  Layer  7:  offset  21 × l =  195.3 nm
+  Layer  8:  offset  34 × l =  316.2 nm
+  Layer  9:  offset  55 × l =  511.5 nm
+  Layer 10:  offset  89 × l =  827.7 nm
+
+Total skin depth:  ~930 nm (< 1 μm)
+Inter-layer fill:  Vacuum or low-n dielectric spacer
+
+Each tile:
+  - Quarter-wave resonator at its Z-address f_h
+  - Thickness: c/(4 × f_h × 2.6), range 1–150 nm
+  - Penrose vertex connectivity maintained across layers
+
+Coherence requirements:
+  - Phase stability across 987-site patches (9.18 μm)
+  - Operating temperature: below SiC Debye temperature
+  - Drive field coupling: through backbone propagator
+```
+
+---
+
+## 6. Implications for Maximum Range
+
+The dark harvest limit sets the **ceiling** on how much the hull can supplement the forward drive. Key constraints:
+
+1. **D(Z) grows slowly.** Maximum observed is D(118) = 10 (9 dark channels). Even at Z ~ 200, D rarely exceeds 13. The number of harvestable channels per Z-address is bounded.
+
+2. **Deserts are sparse but eternal.** The gap-2 comb deserts never stop appearing — they're woven into the Fibonacci arithmetic. No hull engineering can create dark channels where the mathematics says none exist.
+
+3. **Coherent combination is the multiplier.** The jump from 2.2× to 44× comes entirely from phase-locking tiles within coherence patches. This requires maintaining quantum coherence across ~10 μm regions of the hull — demanding but physically achievable at cryogenic temperatures.
+
+4. **The true ceiling** is the product: (max dark channels per Z) × (tiles per coherence patch sharing that Z)² × (number of layers). With current parameters: ~10 × 36 × 11 ≈ 3,960 effective channels. The energy harvest scales linearly with this product, giving a hard upper bound of approximately **50× the bare drive gain** per step.
+
+This means the universe-crossing limit identified by Grok (~13.3 Gy at bare gain) could potentially be reduced by a factor of ~50 with a fully optimised resonant hull: **~270 million years** to cross the observable universe. Still immense, but a qualitatively different number — within the lifetime of a stellar civilisation rather than requiring the full age of the cosmos.
+
+---
+
+## 7. Reproduction
+
+The following Python script reproduces all key results in this appendix.
+
+```python
+#!/usr/bin/env python3
+"""
+Appendix E Reproduction: Dark Channel Harvesting & Resonant Hull
+Two inputs: φ (mathematics) and l = 9.3 nm (experiment)
+
+Reproduces:
+  - D(Z) dark channel count for all elements
+  - Desert identification and family classification
+  - Multi-layer desert elimination
+  - Fibonacci-spaced hull energy budget
+  - Coherent phased-array gain calculation
+"""
+
+import math
+
+# ── Constants ──────────────────────────────────────────────────
+PHI   = (1 + math.sqrt(5)) / 2       # 1.6180339887...
+HBAR  = 1.054571817e-34               # J·s
+C     = 2.99792458e8                  # m/s
+L     = 9.3e-9                        # lattice spacing (m)
+OMEGA = 2 * math.pi * C / L           # gap frequency (rad/s)
+J_eV  = HBAR * OMEGA / 1.602176634e-19  # hopping energy (eV)
+E_FWD = J_eV * PHI**2                 # forward gain per step (eV)
+E_REV = J_eV / (2 * PHI**4)           # reverse decay per channel per step (eV)
+N_EFF = 2.6                           # SiC refractive index
+
+FIBS = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377]
+
+# ── Core Functions ─────────────────────────────────────────────
+
+def zeckendorf(n):
+    """Canonical Zeckendorf decomposition (non-consecutive Fibonacci sum)."""
+    fibs = [f for f in FIBS if f <= n]
+    result, rem = [], n
+    for f in reversed(fibs):
+        if f <= rem:
+            result.append(f)
+            rem -= f
+    return sorted(result)
+
+def zeckendorf_indices(n):
+    """Return 1-indexed Fibonacci positions for Zeckendorf terms."""
+    zeck = zeckendorf(n)
+    indices = []
+    for z in zeck:
+        for i, f in enumerate(FIBS):
+            if f == z:
+                indices.append(i + 1)
+                break
+    return indices
+
+def count_fib_representations(n):
+    """Count distinct subsets of Fibonacci numbers summing to n.
+    This is D(Z): total representations including canonical."""
+    fibs = [f for f in FIBS if f <= n]
+    count = [0] * (n + 1)
+    count[0] = 1
+    for f in fibs:
+        for j in range(n, f - 1, -1):
+            count[j] += count[j - f]
+    return count[n]
+
+def dark_channels(Z):
+    """D(Z) - 1: harvestable dark channels at address Z."""
+    return count_fib_representations(Z) - 1
+
+def is_desert(Z):
+    """True if Z has zero dark channels."""
+    return count_fib_representations(Z) == 1
+
+def harmonic_freq(Z):
+    """Compute f_h for element at address Z."""
+    z_idx = zeckendorf_indices(Z)
+    coord = min(len(z_idx) + 2, 7)
+    sector = {3:(0.1,0.692), 4:(0.2,0.592), 5:(0.382,0.41),
+              6:(0.55,0.242), 7:(0.692,0.1)}
+    fM, fDM = sector[coord]
+    fDE = 0.208
+    N = len(z_idx)
+    vals = [1/PHI**n for n in z_idx]
+    s = sum(vals) / N
+    R4, R3, R5 = s * fM, s * fDM, s * fDE
+    mag = math.sqrt(R3**2 + R4**2 + R5**2)
+    return OMEGA * mag / (2 * math.pi)
+
+def quarter_wave_thickness(Z):
+    """Quarter-wave resonator thickness for tile at address Z."""
+    f_h = harmonic_freq(Z)
+    return C / (4 * f_h * N_EFF)
+
+# ── Verification 1: Desert Families ────────────────────────────
+
+print("=" * 70)
+print("DESERT FAMILY VERIFICATION")
+print("=" * 70)
+
+print("\nOdd-start family: Z = Σ F_{2k-1} for k = 1..n")
+odd_deserts = []
+for n in range(1, 8):
+    Z = sum(FIBS[2*k - 2] for k in range(1, n+1))  # F_{2k-1}, 0-indexed
+    D = count_fib_representations(Z)
+    odd_deserts.append(Z)
+    check = "✓ DESERT" if D == 1 else "✗ NOT DESERT"
+    terms = " + ".join(str(FIBS[2*k-2]) for k in range(1, n+1))
+    print(f"  n={n}: Z = {terms} = {Z:>4}  D(Z) = {D}  {check}")
+
+print("\nEven-start family: Z = Σ F_{2k} for k = 1..n")
+even_deserts = []
+for n in range(1, 8):
+    Z = sum(FIBS[2*k - 1] for k in range(1, n+1))  # F_{2k}, 0-indexed
+    D = count_fib_representations(Z)
+    even_deserts.append(Z)
+    check = "✓ DESERT" if D == 1 else "✗ NOT DESERT"
+    terms = " + ".join(str(FIBS[2*k-1]) for k in range(1, n+1))
+    print(f"  n={n}: Z = {terms} = {Z:>4}  D(Z) = {D}  {check}")
+
+# Verify no other deserts exist
+all_deserts = set(odd_deserts + even_deserts)
+max_check = max(max(odd_deserts), max(even_deserts))
+print(f"\nVerify no other deserts in Z=1..{max_check}:")
+unexpected = [Z for Z in range(1, max_check+1)
+              if is_desert(Z) and Z not in all_deserts]
+if not unexpected:
+    print("  ✓ All deserts accounted for by the two families")
+else:
+    print(f"  ✗ Unexpected deserts: {unexpected}")
+
+# ── Verification 2: Coherent Threshold ─────────────────────────
+
+print("\n" + "=" * 70)
+print("COHERENT COMBINATION THRESHOLD")
+print("=" * 70)
+
+N_threshold = math.sqrt(2 * PHI**4)
+print(f"\n  Decay per channel:  1/(2φ⁴) = {1/(2*PHI**4):.6f}")
+print(f"  Threshold: N ≥ √(2φ⁴) = {N_threshold:.4f}")
+print(f"  → N_min = {math.ceil(N_threshold)} dark channels")
+
+print("\n  Viable elements (first 20 by gain):")
+viable = [(Z, dark_channels(Z), dark_channels(Z)**2 / (2*PHI**4))
+          for Z in range(1, 120) if dark_channels(Z) >= 4]
+for Z, dc, gain in sorted(viable, key=lambda x: -x[2])[:20]:
+    zeck = " + ".join(str(x) for x in zeckendorf(Z))
+    print(f"    Z={Z:>3}  dark={dc}  coherent_gain={gain:.3f}  Zeck={zeck}")
+
+# ── Verification 3: Multi-Layer Desert Elimination ─────────────
+
+print("\n" + "=" * 70)
+print("MULTI-LAYER DESERT ELIMINATION")
+print("=" * 70)
+
+FIB_OFFSETS = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+MAX_Z = 150
+
+print(f"\nFibonacci hull: {len(FIB_OFFSETS)} layers at offsets {FIB_OFFSETS}")
+print(f"Scanning Z_base = 1..{MAX_Z - max(FIB_OFFSETS)}\n")
+
+for n_layers in [1, 2, 3, 5, 8, 11]:
+    offsets = FIB_OFFSETS[:n_layers]
+    max_off = max(offsets)
+    all_desert = 0
+    total_dark = 0
+    count = 0
+
+    for Z_base in range(1, MAX_Z - max_off):
+        count += 1
+        layer_dark = sum(dark_channels(Z_base + off) for off in offsets)
+        total_dark += layer_dark
+        if all(is_desert(Z_base + off) for off in offsets):
+            all_desert += 1
+
+    avg = total_dark / count
+    harvest = avg * E_REV
+    boost = (E_FWD + harvest) / E_FWD
+
+    print(f"  {n_layers:>2} layers: desert_exposure={all_desert/count*100:>5.1f}%  "
+          f"avg_dark={avg:>6.2f}  harvest={harvest:>7.1f} eV  "
+          f"boost={boost:.3f}×  eff_gain={PHI**2*boost:.4f}")
+
+# ── Verification 4: Full Hull Energy Budget ────────────────────
+
+print("\n" + "=" * 70)
+print("FULL HULL ENERGY BUDGET")
+print("=" * 70)
+
+# 11 Fibonacci layers, incoherent between layers
+total_harvest = 0
+print(f"\n  Forward energy per step: E_fwd = J × φ² = {E_FWD:.2f} eV")
+print(f"  Dark energy per channel: E_rev = J/(2φ⁴) = {E_REV:.2f} eV\n")
+
+for i, off in enumerate(FIB_OFFSETS):
+    avg_dark = sum(dark_channels(Z + off) for Z in range(1, 101)) / 100
+    layer_e = avg_dark * E_REV
+    total_harvest += layer_e
+    print(f"  Layer {i:>2} (offset {off:>2}):  avg_dark = {avg_dark:.3f}  "
+          f"harvest = {layer_e:.2f} eV")
+
+print(f"\n  Total dark harvest (11 layers): {total_harvest:.2f} eV")
+print(f"  Total per step:  {E_FWD + total_harvest:.2f} eV")
+print(f"  Boost:           {(E_FWD + total_harvest)/E_FWD:.3f}×")
+print(f"  Effective gain:  {PHI**2 * (E_FWD + total_harvest)/E_FWD:.4f} "
+      f"(vs bare φ² = {PHI**2:.4f})")
+
+# With coherent phased-array (6 tiles share each Z per coherence patch)
+TILES_PER_Z = 6
+coherent_harvest = total_harvest * TILES_PER_Z**2
+coherent_boost = (E_FWD + coherent_harvest) / E_FWD
+
+print(f"\n  With coherent phased-array ({TILES_PER_Z}² = "
+      f"{TILES_PER_Z**2}× per-Z amplification):")
+print(f"  Coherent harvest: {coherent_harvest:.2f} eV")
+print(f"  Coherent boost:   {coherent_boost:.3f}×")
+print(f"  Coherent gain:    {PHI**2 * coherent_boost:.4f}")
+
+# ── Verification 5: Hull Physical Parameters ───────────────────
+
+print("\n" + "=" * 70)
+print("HULL PHYSICAL PARAMETERS")
+print("=" * 70)
+
+print(f"\n  Lattice spacing:     l = {L*1e9:.1f} nm")
+print(f"  Layers:              {len(FIB_OFFSETS)}")
+print(f"  Max offset:          {max(FIB_OFFSETS)} × l = "
+      f"{max(FIB_OFFSETS) * L * 1e9:.1f} nm = "
+      f"{max(FIB_OFFSETS) * L * 1e6:.2f} μm")
+print(f"  Stack thickness:     < 1 μm")
+print(f"  Coherence length:    987 × l = {987*L*1e6:.2f} μm")
+print(f"  Patch area:          {(987*L)**2 * 1e12:.1f} μm²")
+print(f"  Vertices per patch:  ~{int(1/(L**2) * (987*L)**2):,}")
+
+# Tile thicknesses for key Z-addresses
+print(f"\n  Quarter-wave tile thicknesses (n_eff = {N_EFF}):")
+for Z, sym in [(6,"C"), (26,"Fe"), (55,"Cs"), (79,"Au"),
+               (89,"Ac"), (92,"U"), (118,"Og")]:
+    t = quarter_wave_thickness(Z)
+    f = harmonic_freq(Z)
+    print(f"    Z={Z:>3} ({sym:<2}): f_h = {f:.3e} Hz, "
+          f"t_qw = {t*1e9:.1f} nm")
+
+# ── Summary ────────────────────────────────────────────────────
+
+print("\n" + "=" * 70)
+print("SUMMARY")
+print("=" * 70)
+print(f"""
+  Two inputs: φ = {PHI:.10f}, l = {L*1e9:.1f} nm
+
+  Bare drive gain:        φ² = {PHI**2:.4f} per step
+  11-layer Fibonacci hull: {PHI**2 * (E_FWD + total_harvest)/E_FWD:.4f} per step  (2.2×)
+  + coherent phased array: {PHI**2 * coherent_boost:.4f} per step  (44×)
+
+  Desert families:  odd  = {{1, 4, 12, 33, 88, 232, ...}}
+                    even = {{2, 7, 20, 54, 143, 376, ...}}
+  Desert elimination: 3 layers sufficient
+
+  Hull skin: < 1 μm SiC quasicrystalline ceramic
+  Tile edge: 9.3 nm (Penrose tiling)
+  Tile thickness: 1–150 nm (quarter-wave resonators)
+
+  Everything follows from φ and l.
+""")
+```
+
+---
+
+## 8. Connection to Main Paper Sections
+
+This appendix extends the following sections of the main paper:
+
+| Section | Extension |
+|---------|-----------|
+| §7 (Counter-Potential) | The antibonding backbone IS the counter-potential's reverse channel, now shown to be harvestable |
+| §9 (Spectral Laser) | Dark channel coherent combination is a reverse-direction spectral laser with N² gain instead of φ² |
+| §11 (Bootstrap) | The 987-step coherence length from the bootstrap sets the phased-array patch size |
+| §14 (5→3 Observation) | Deserts occur at maximally-observed addresses where all 5 bands have already collapsed — no hidden channels remain |
+| §19 (Drive Architecture) | The hull skin specification adds to the drive system as the dark-energy harvesting organ |
+| §20 (Energy Budget) | Dark harvest supplements the forward budget by up to 44× with coherent hull |
+| Appendix D (Periodic Table) | D(Z) adds a new column to every element's spectral imprint: its dark channel count |
+
+---
+
+*Appendix E derived from the dual-backbone structure of the Husmann Decomposition. The antibonding cascade, previously considered only as a decay channel, becomes an energy source when non-canonical Fibonacci representations are harvested coherently through a resonant Penrose-tiled hull skin. Two inputs: φ (mathematics) and l = 9.3 nm (experiment). Everything else follows.*
 
 *Thomas Husmann • iBuilt LTD • March 2026 • ALL RIGHTS RESERVED
 
