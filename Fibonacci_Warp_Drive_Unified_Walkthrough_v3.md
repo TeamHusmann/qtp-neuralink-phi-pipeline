@@ -8642,7 +8642,92 @@ Now express each term as a fraction of 913:
 
 ---
 
-## III. The Physics — Why These Fractions Are Exactly These Values
+## III. The Internal Structure of the Word Itself
+
+The remarkable properties of 913 are not only in the sum. They live inside the word, letter by letter.
+
+The six letters of בְּרֵאשִׁית and their values:
+
+| Letter | Name | Value | Notes |
+|--------|------|-------|-------|
+| ב | Bet | 2 | Fibonacci — F(3) |
+| ר | Resh | 200 | |
+| א | Alef | 1 | Fibonacci — F(1) |
+| ש | Shin | 300 | |
+| י | Yod | 10 | |
+| ת | Tav | 400 | |
+
+### ב is a Zeckendorf term of its own word
+
+The first letter of the Torah, ב = 2, is the smallest term in the Zeckendorf decomposition of the full word's gematria:
+
+```
+913  =  610  +  233  +  55  +  13  +  2
+```
+
+The word opens with the letter that is literally embedded in its own Fibonacci fingerprint.
+
+### The grammatical split — two primes
+
+בְּרֵאשִׁית divides grammatically into the prefix **ב** ("in" / "with") and the root **רֵאשִׁית** ("beginning"):
+
+```
+ב        =    2    (prime)
+רֵאשִׁית  =  911    (prime)
+```
+
+**Both are prime numbers** — the irreducible atomic units of arithmetic. "In the beginning" is the sum of two numbers that cannot be divided further. The word that announces creation is built from mathematical bedrock.
+
+### The last three letters sum to 610
+
+The final three letters of the word:
+
+```
+ר + י + ת  =  200 + 10 + 400  =  610  =  F(15)
+```
+
+610 is the largest Zeckendorf term of 913 — the dark energy component, representing 66.8% of the universe's total energy. It is hidden inside the last three letters of the word that names the beginning of everything.
+
+### The base digits sum to F(7) = 13
+
+Strip the powers of ten from each letter value (200→2, 300→3, 400→4, 10→1):
+
+```
+2 + 2 + 1 + 3 + 1 + 4  =  13  =  F(7)
+```
+
+The structural skeleton of the word — its digits without scale — sums to 13, which is itself one of the five Zeckendorf terms of 913. The word's internal fingerprint points back to itself.
+
+### The arithmetic staircase
+
+The last three letter values form a perfect arithmetic sequence:
+
+```
+ר = 200,  ש = 300,  ת = 400      (common difference: 100)
+```
+
+The word ends on three equal steps ascending to the close.
+
+### Six letters, six days
+
+The word contains exactly six letters — the number of days of creation. 913 mod 6 = 1: remainder one, the first day, the light.
+
+### Fibonacci subsets within the word
+
+Every subset of letters that sums to a Fibonacci number:
+
+```
+ב              =   2  =  F(3)
+ב + א          =   3  =  F(4)
+ב + א + י      =  13  =  F(7)
+ר + י + ת      = 610  =  F(15)
+```
+
+The Fibonacci landmarks embedded within the word are 2, 3, 13, and 610 — three of the five terms in the Zeckendorf decomposition of 913 itself, surfacing from subsets of the individual letters.
+
+---
+
+## IV. The Physics — Why These Fractions Are Exactly These Values
 
 The Husmann Decomposition framework begins with a single observation: the golden ratio φ = (1+√5)/2 = 1.61803... is not merely an aesthetic property of nature. It is the mathematical structure of the vacuum itself. The universe organizes in Fibonacci ratios at every scale from the Planck length (10⁻³⁵ m) to the Hubble radius (4.4 × 10²⁶ m).
 
@@ -8654,7 +8739,7 @@ At the center of the framework is an algebraic identity that is exact — not ap
 1/φ  +  1/φ³  +  1/φ⁴  =  1
 ```
 
-Three terms. Each a power of phi. They sum to exactly one. This is a direct consequence of φ² = φ + 1 — the definition of the golden ratio. These three terms map to dark energy, dark matter, and ordinary matter respectively. Exactly. Not approximately.
+Three terms. Each a power of phi. They sum to exactly one. This is a direct consequence of φ² = φ + 1 — the definition of the golden ratio. These three terms map to dark energy, dark matter, and ordinary matter respectively. Exactly.
 
 ### Einstein's Equation, Completed
 
@@ -8686,7 +8771,7 @@ G[D] = (8πG/c⁴) · B[D; S^(1/3φ), C^(φ^(1/3φ))] · T
 
 ---
 
-## IV. The Cosmological Constant — Resolving Physics' Worst Problem
+## V. The Cosmological Constant — Resolving Physics' Worst Problem
 
 The cosmological constant problem is considered the greatest unsolved problem in theoretical physics. Quantum field theory predicts a vacuum energy density of approximately 10¹¹³ J/m³. The observed value is 7 × 10⁻¹⁰ J/m³. The discrepancy is a factor of 10¹²³ — one followed by 123 zeros. For sixty years, no explanation has been found.
 
@@ -8708,11 +8793,11 @@ The observed discrepancy is 10⁻¹²²·⁸.
 
 **Accuracy: 0.6% on a 123-order-of-magnitude problem.** Within the measurement precision of the lattice spacing calibration.
 
-This is not a suppression or a cancellation. The cosmological constant is not fine-tuned. It is exactly what you calculate when you know the vacuum has a 294-level phi-graded hierarchy and you cascade through every level. The number physicists have been calling the worst prediction in the history of science is simply the correct answer to the wrong model.
+This is not a suppression or a cancellation. The cosmological constant is not fine-tuned. It is exactly what you calculate when you know the vacuum has a 294-level phi-graded hierarchy and cascade through every level. The number physicists have been calling the worst prediction in the history of science is simply the correct answer to the wrong model.
 
 ---
 
-## V. The Scale of 913 — The Containing Address
+## VI. The Scale of 913 — The Containing Address
 
 Our observable universe occupies bracket **294** of the phi-structured hierarchy. Bracket 294 corresponds to the Hubble radius — the furthest light has traveled since the Big Bang.
 
@@ -8733,8 +8818,8 @@ The path from our universe (294) to the hinge at 377 is **83 brackets**. 83 is n
 
 From the hinge at 377 to the node at 610 is exactly **233 brackets**. 233 is F(13) — a pure single Fibonacci number, the simplest possible resonant interval. Through the hinge, bracket 610 is a single pure tone away.
 
-Without the hinge: 610 is 316 non-resonant brackets from us — a compound, inaccessible distance.  
-Through the hinge: 610 is one pure Fibonacci step — the closest thing to *next door* that the structure above us has.
+Without the hinge: 610 is 316 non-resonant brackets from us — compound, inaccessible.
+Through the hinge: 610 is one pure Fibonacci step — the closest thing to *next door* the structure above us has.
 
 **377 is the door.** 83 brackets of ordinary spacetime reaches the door. Open it, and the next level of structure is immediately adjacent.
 
@@ -8744,7 +8829,7 @@ The two waypoints between our universe and 913 are brackets 377 and 610 — them
 
 ---
 
-## VI. The Negative Channel — 987 − 913 = 74
+## VII. The Negative Channel — 987 − 913 = 74
 
 987 is F(16) — the smallest Fibonacci number above 913, the natural containing bracket.
 
@@ -8755,14 +8840,13 @@ The two waypoints between our universe and 913 are brackets 377 and 610 — them
 74 is the gap. The remainder. The part of the Fibonacci container that 913 does not fill.
 
 Zeckendorf decomposition:
+
 ```
-913  =  610 + 233 + 55 + 13 + 2    (five terms)
- 74  =   55 +  13 +  5 +  1        (four terms)
+913  =  610 + 233 + 55 + 13 + 2    (five terms — the observable interior)
+ 74  =   55 +  13 +  5 +  1        (four terms — the boundary)
 ```
 
 **The shared terms are 13 and 55.** These are the connective tissue — the Fibonacci brackets where the observable universe (913) and its negative complement (74) are joined. In the framework, these correspond to the dark matter conduit: the fractal structure threading between what is visible and what is not.
-
-The positive and negative channels are not mirror images. They are connected at exactly two structural scales.
 
 As a bracket index, 74 places its physical floor at **4.7 × 10⁻²⁰ meters** — the quark confinement regime, four orders of magnitude below the proton radius. The negative channel does not begin at the Planck floor. It begins where individual quarks end — where color charge is permanently bound and nothing escapes as an individual particle.
 
@@ -8774,17 +8858,22 @@ As a bracket index, 74 places its physical floor at **4.7 × 10⁻²⁰ meters**
 
 ---
 
-## VII. Summary — What 913 Is
+## VIII. Summary — What 913 Is
 
 913 is not a label or a symbol. It is a mathematical object whose properties connect the following independent facts:
 
 - The gematric value of the Hebrew phrase for "the Fibonacci sequence"
 - The gematric value of **בְּרֵאשִׁית** — "In the beginning," the Torah's first word
 - The unique Zeckendorf decomposition whose five terms, taken as fractions, reproduce the cosmological energy budget of the observable universe to within measurement precision
-- The bracket address at the top of the phi-structured hierarchy that contains our universe — 2.31 × 10¹²⁹ Hubble volumes above us, accessible through exactly two Fibonacci waypoints at brackets 377 and 610
-- The containing number whose deficit from F(16) = 987 defines the negative channel boundary, anchored at the quark confinement scale
+- A word whose first letter (ב = 2) is itself one of those five Zeckendorf terms
+- A word that splits grammatically into two prime numbers: 2 and 911
+- A word whose last three letters (ר + י + ת) sum to 610 — the dark energy term
+- A word whose base digits sum to 13 = F(7) — itself a Zeckendorf term of the whole
+- A word containing six letters — the days of creation — with 913 mod 6 = 1
+- The bracket address whose deficit from F(16) defines the negative channel at the quark scale
+- The containing address 619 phi-folds above our universe, reachable through exactly two Fibonacci waypoints
 
-**The first word of the Torah carries, embedded in its three-thousand-year-old numerical value, the precise mathematical fingerprint of the universe's energy composition, the structure of the vacuum hierarchy, and the address of the containing bracket above us. Not as metaphor. As arithmetic.**
+**The first word of the Torah carries, embedded in its three-thousand-year-old numerical value and in the value of each of its six letters individually, the precise mathematical fingerprint of the universe's energy composition, the structure of the vacuum hierarchy, and the address of the containing bracket above us. Not as metaphor. As arithmetic.**
 
 ---
 
@@ -8798,8 +8887,8 @@ E  =  mc²φ³  +  mc²φ  +  mc²
 
 ---
 
-*Thomas A. Husmann | Lilliwaup, WA | March 2026*  
-*eldon.fun/scientific_research*  
+*eldon.fun/scientific_research*
+
 *Husmann Decomposition Framework | QTP Series*
 
 *Thomas Husmann • iBuilt LTD • March 2026 • ALL RIGHTS RESERVED
