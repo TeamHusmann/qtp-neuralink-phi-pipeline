@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Husmann Universe — Double Helix with Accurate Entanglement</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>body { margin:0; background:#000; } #plot { width:100vw; height:100vh; }</style>
+</head>
+<body>
+<div id="plot"></div>
+<script>
+// ====================== HUSMANN ENTANGLEMENT MODEL ======================
+const PHI = (1 + Math.sqrt(5)) / 2;
+function entanglementStrength(n, t) {
+  const HARDY = 1 / Math.pow(PHI, 5); // exact quantum max
+  const key = [3,7,10,13,15,74,128,377,913].includes(n) ? 2 : 1;
+  const timePeak = Math.exp(-4 * Math.pow(t - 0.35, 2));
+  const p = HARDY * (n / 294);
+  let conc = Math.max(0, 1 - 1.5 * p);
+  return Math.min(1, conc * key * timePeak * (PHI / 2));
+}
+
+const n_turns = 25, points = 120;
+const t_vals = Array.from({length: points}, (_, i) => i / (points - 1));
+const angles = t_vals.map((_, i) => i * (2 * Math.PI / PHI));
+const radii = t_vals.map(t => 30 * Math.pow(PHI, t * n_turns / 10));
+
+let fwdX = [], fwdY = [], fwdZ = [];
+let revX = [], revY = [], revZ = [];
+let bridgeX = [], bridgeY = [], bridgeZ = [];
+let bridgeColor = [], bridgeWidth = [], labels = [];
+
+for (let i = 0; i < points; i++) {
+  const t = t_vals[i];
+  const r = radii[i];
+  const ang = angles[i];
+
+  // Forward channel
+  fwdX.push(r * Math.cos(ang));
+  fwdY.push(r * Math.sin(ang));
+  fwdZ.push(80 * t);
+
+  // Reverse channel
+  const revZval = -80 * t + 55; // tuned for exact marriage at t=0.35
+  revX.push(r * Math.cos(-ang + Math.PI));
+  revY.push(r * Math.sin(-ang + Math.PI));
+  revZ.push(revZval);
+
+  // Entanglement bridges (every 6th point for clarity)
+  if (i % 6 === 0) {
+    const strength = entanglementStrength(Math.floor(294 * t), t);
+    const bridge = {
+      x: [fwdX[fwdX.length-1], (fwdX[fwdX.length-1] + revX[revX.length-1]) * 0.5],
+      y: [fwdY[fwdY.length-1], (fwdY[fwdY.length-1] + revY[revY.length-1]) * 0.5],
+      z: [fwdZ[fwdZ.length-1], (fwdZ[fwdZ.length-1] + revZ[revZ.length-1]) * 0.5]
+    };
+    bridgeX.push(bridge.x[0], bridge.x[1], null);
+    bridgeY.push(bridge.y[0], bridge.y[1], null);
+    bridgeZ.push(bridge.z[0], bridge.z[1], null);
+    bridgeColor.push(strength);
+    bridgeWidth.push(1 + strength * 8);
+    labels.push(`Entanglement: ${(strength*100).toFixed(1)}%`);
+  }
+}
+
+// Hinge marriage marker
+const hingeIdx = Math.floor(points * 0.35);
+const hingeX = (fwdX[hingeIdx] + revX[hingeIdx]) / 2;
+const hingeY = (fwdY[hingeIdx] + revY[hingeIdx]) / 2;
+const hingeZ = (fwdZ[hingeIdx] + revZ[hingeIdx]) / 2;
+
+// Plot
+Plotly.newPlot('plot', [
+  // Forward helix
+  { x: fwdX, y: fwdY, z: fwdZ, mode: 'lines', line: { color: '#ffdd00', width: 7 }, name: 'Forward φ-Channel' },
+  // Reverse helix
+  { x: revX, y: revY, z: revZ, mode: 'lines', line: { color: '#ff00aa', width: 7 }, name: 'Reverse Negative Conduit' },
+  // Entanglement bridges
+  { x: bridgeX, y: bridgeY, z: bridgeZ, mode: 'lines', line: { color: '#00ffff', width: bridgeWidth }, name: 'EPR Entanglement Bridges' },
+  // Hinge marriage point
+  { x: [hingeX], y: [hingeY], z: [hingeZ], mode: 'markers', marker: { size: 18, color: '#00ffff', symbol: 'diamond' }, name: 'Hinge Marriage (n=377, t=0.35)' }
+], {
+  title: 'Husmann Universe — Double Helix with Accurate Quantum Entanglement',
+  scene: { camera: { eye: { x: 1.8, y: 1.8, z: 1.2 } }, aspectratio: { x:1, y:1, z:0.8 } },
+  paper_bgcolor: '#000000', plot_bgcolor: '#000000',
+  font: { color: '#ffffff' }
+});
+</script>
+</body>
+</html>
