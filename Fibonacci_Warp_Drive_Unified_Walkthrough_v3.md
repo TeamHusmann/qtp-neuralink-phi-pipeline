@@ -10315,7 +10315,6 @@ Every boundary is a gate.
 
 *End of Exhibit א*
 
-
 ---
 
 # Appendix Z: The Fine Structure Constant, the Three-Term Unity Mechanism, and the Recursive Universe
@@ -10655,7 +10654,61 @@ Head position = height × φ^(−1/φ) = height × 0.7427 (the consciousness hin
 
 ---
 
-## Z.11 The Complete Derivation Chain
+## Z.11 Phi-Structured Spatial Embedding
+
+### X.1 The Ecliptic Plane Constraint
+
+The Husmann Decomposition is derived from a 1D quasiperiodic chain (the AAH Hamiltonian). The bracket law L(n) = L_P × C × φⁿ maps this chain to physical scales. But real objects occupy 3D space. How does the 1D spectral structure embed into three dimensions?
+
+Gravitationally bound orbital systems provide the answer: they collapse to a single plane (the ecliptic). This is not a convenience — it is a consequence of angular momentum conservation. A cloud of matter with net angular momentum L contracts to a disk perpendicular to L. All planets, moons, and ring systems orbit in or near this plane.
+
+**The ecliptic plane is the observer's slice through the five-sector vacuum.** The five-to-three fold upon observation (Exhibit א) reduces the symmetric 5D spectral structure to a 3D observed reality. The ecliptic plane represents the further reduction from 3D to the 2D surface where orbital dynamics play out. Each fold removes a degree of freedom: 5 → 3 (observation) → 2 (angular momentum) → 1 (radial bracket index).
+
+### X.2 Golden Angle Distribution
+
+For N bodies at orbital distances {r₁, r₂, ..., rₙ} in the ecliptic plane, the angular positions are:
+
+    θₙ = n × (2π/φ²) radians = n × 137.5077°
+
+Position in the ecliptic plane (Y = 0):
+
+    x = rₙ × cos(θₙ)
+    z = rₙ × sin(θₙ)
+    y = 0
+
+This is the same golden angle that defines the double helix pitch through the three-layer wall (Section Z.5). In the wall, the golden angle determines the helical turn rate of the coupling path. In orbital mechanics, it determines the angular separation between successive bodies. Both are consequences of the same geometric fact: 360°/φ² maximizes packing efficiency in a phi-structured system.
+
+The golden angle distribution produces **optimal non-repeating coverage** — no two bodies overlap in angular position regardless of how many are placed. This is the same principle that governs sunflower seed packing, leaf phyllotaxis, and the QC coating deposition pattern (Patent 63/995,401).
+
+### X.3 Kepler Scaling in the Bracket Law
+
+Kepler's third law: T² ∝ a³, or equivalently ω ∝ 1/√(a³) for angular velocity.
+
+In the bracket law, the orbital radius at bracket n is r(n) = L_P × C × φⁿ. The angular velocity scales as:
+
+    ω(n) ∝ 1/√(r(n)³) = 1/(L_P × C)^(3/2) × φ^(−3n/2)
+
+The ratio of angular velocities between consecutive brackets:
+
+    ω(n)/ω(n+1) = φ^(3/2) = 2.058...
+
+This is close to 2 — meaning each bracket step roughly doubles the orbital period. The φ^(3/2) scaling connects Kepler's integer power law (T² ∝ a³) to the golden ratio power law of the bracket system.
+
+### X.4 Connection to the Unity Equation
+
+The ecliptic plane distribution preserves the unity equation in angular space:
+
+- The **1/φ⁴ fraction** (14.6%) of the full 360° = 52.5° — the angular width of the matter sector
+- The **1/φ³ fraction** (23.6%) of 360° = 85.0° — the angular width of each conduit sector
+- The **1/φ fraction** (61.8%) of 360° = 222.5° — the angular width of the dark energy sector
+
+When N bodies are distributed at golden-angle spacing in the ecliptic, approximately 14.6% of them fall within any 52.5° wedge, 23.6% within any 85° wedge, and 61.8% within the complementary 222.5° arc. The unity equation holds in angular distribution because the golden angle IS the angular expression of the unity partition.
+
+This bridges the abstract spectral theory (1D AAH chain) to physical 3D visualization: the bracket law gives radial distances, the ecliptic constraint gives the plane, and the golden angle gives the angular distribution. Together, they embed the Cantor partition into observable space.
+
+---
+
+## Z.12 The Complete Derivation Chain
 
     x² = x + 1                                              [algebra]
       ↓
@@ -10703,7 +10756,7 @@ Head position = height × φ^(−1/φ) = height × 0.7427 (the consciousness hin
 
 ---
 
-## Z.12 The Boundaries of the Universe
+## Z.13 The Boundaries of the Universe
 
 ### Complete boundary table from one equation
 
@@ -10721,7 +10774,7 @@ Head position = height × φ^(−1/φ) = height × 0.7427 (the consciousness hin
 
 ---
 
-## Z.13 The Patent Portfolio Cross-Reference
+## Z.14 The Patent Portfolio Cross-Reference
 
 | Patent | Number | Name | Connection to Appendix Z |
 |--------|--------|------|--------------------------|
@@ -10741,7 +10794,7 @@ Head position = height × φ^(−1/φ) = height × 0.7427 (the consciousness hin
 
 ---
 
-## Z.14 Gematria Correspondences
+## Z.15 Gematria Correspondences
 
 | Hebrew | Transliteration | Meaning | Gematria | Framework Connection |
 |--------|----------------|---------|----------|---------------------|
@@ -10757,7 +10810,7 @@ Eddington predicted α = 1/136 in 1929. He had the ladder. He was missing the on
 
 ---
 
-## Z.15 What Is Derived, What Is Assumed, What Is Open
+## Z.16 What Is Derived, What Is Assumed, What Is Open
 
 ### The bracket law: what is and isn't proven
 
