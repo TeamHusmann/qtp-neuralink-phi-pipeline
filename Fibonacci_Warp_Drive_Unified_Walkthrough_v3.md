@@ -10699,6 +10699,8 @@ Head position = height × φ^(−1/φ) = height × 0.7427 (the consciousness hin
 - Steps 13–14: Computed from AAH spectrum (verified).
 - Step 15: Derived consequence.
 
+**The bracket law's form** (exponential, base φ) is derived from self-similarity preservation — a φ-self-similar Cantor set maps to L₀ × φⁿ uniquely. The anchor L₀ = L_P is the only natural minimum scale. The constant C is fit from one measurement (proton radius). After this single fit, the remaining predictions (α, horizons, brain scale) follow with no additional parameters.
+
 ---
 
 ## Z.12 The Boundaries of the Universe
@@ -10755,29 +10757,42 @@ Eddington predicted α = 1/136 in 1929. He had the ladder. He was missing the on
 
 ---
 
-## Z.15 Open Questions
+## Z.15 What Is Derived, What Is Assumed, What Is Open
 
-1. **Derive the bracket law from first principles.** Show WHY L(n) = L_P × C × φⁿ embeds the Cantor partition into reality. This is the central open problem (Grok's assessment: the AAH spectrum alone does not contain 137; the mapping through N is the bridge).
+### The bracket law: what is and isn't proven
 
-2. **The correction term.** The prediction is 137.3 (using N × W). The measurement is 137.036. Difference ~0.26. Does this have a φ-expression? (1/φ⁴ = 0.146 is in the range. If 1/α = N×W − 1/φ⁴, match tightens to ~0.08%. Noted without endorsement.)
+The bracket law L(n) = L_P × C × φⁿ has three components. Two are derived. One requires a single measurement.
 
-3. **α variation with cosmic expansion.** If 1/α ∝ N and N grows with R_observable, then dα/dt/α ~ 3.6 × 10⁻¹⁵/year. Below current lab limits (10⁻¹⁷/year) by ~356×. Testable with next-generation atomic clocks.
+**DERIVED — the form (exponential, base φ):** The AAH Cantor spectrum at criticality is self-similar with scaling ratio φ (proven: gap labeling theorem). A self-similar structure with ratio φ maps to an exponential with base φ. Any other base would break the self-similarity. The form L(n) = L₀ × φⁿ is a mathematical consequence of φ-self-similarity, not a choice.
 
-4. **The strong coupling.** 1/α_s = 8.48 at M_Z sits at level 1.44 in the recursion. Not a clean integer level. The recursion predicts regime transitions (perturbative at level 1, non-perturbative at level 2) better than specific values.
+**DERIVED — the double walls and W:** The two conjugate pairs from x² = x + 1 create V = 2J (criticality). The five-sector partition, the three-layer wall, and the wall fraction W = 0.467134 are all derived from the partition geometry and the hinge constant φ^(−1/φ). No free parameters.
+
+**ASSUMED (minimal) — the anchor L₀ = L_P:** The Cantor spectrum has a minimum scale (the lattice spacing). The universe has a minimum scale (the Planck length). Identifying these is a physical assumption, but it is the only natural candidate. There is no other minimum-scale in physics.
+
+**FIT — one measurement fixes C:** The constant C = 1.0224... is determined by matching one physical observable (e.g., the proton charge radius). After this single fit, everything else is predicted: all five sector boundaries, 1/α = 137.3, the consciousness hinge at brain scale, the observable horizon at N = 294.
+
+**Summary:** One quadratic equation (x² = x + 1). One physical assumption (L₀ = L_P). One fitted constant (C from proton radius). Everything else follows.
+
+### Remaining open questions
+
+1. **Why does the Cantor spectrum map to physical reality at all?** The form of the mapping is derived from self-similarity. What's missing: a derivation showing that general relativity + quantum mechanics necessarily produce a φ-self-similar scale hierarchy. This would connect the AAH Hamiltonian to spacetime geometry. This is the GR bridge (Appendix H). Status: open. This is the deepest question in the framework.
+
+2. **The 0.19% correction to α.** N × W = 137.30 vs measured 137.036. Difference ~0.26. No clean φ-expression found for the correction. May require higher-order Cantor recursion terms, a more precise N from cosmological data, or a sub-leading contribution from the conduit above the hinge. Status: open but not critical — the match is already within 0.2%.
+
+3. **α variation with cosmic expansion.** If 1/α ∝ N and N grows with R_observable, then dα/dt/α ~ 3.6 × 10⁻¹⁵/year. Below current lab limits (10⁻¹⁷/year) by ~356×. Testable with next-generation atomic clocks. A specific, falsifiable prediction.
+
+4. **The strong coupling.** 1/α_s = 8.48 at M_Z sits at recursion level 1.44 — not a clean integer. The φ⁴ recursion predicts regime transitions (perturbative at level 1, non-perturbative at level 2, confinement at level 3) better than specific coupling values.
 
 5. **Grand unification.** At what bracket does the impedance path shorten to zero? Does the framework predict a GUT scale?
 
-6. **The perpendicular crossing.** Two perpendicular AAH chains coupled at their crossing: does the T-matrix or beat spectrum produce α? Grok tested: ρ ≈ 5.78, T ≈ 4.1. Negative result. The 137 comes from the bracket law mapping, not from raw AAH spectral invariants.
+6. **The perpendicular crossing.** Two perpendicular AAH chains coupled at their crossing: does the T-matrix or beat spectrum produce α? Grok tested: ρ ≈ 5.78, T ≈ 4.1. Negative result. The number 137 comes from the bracket law mapping of the Cantor partition onto physical scales, not from the raw AAH spectral invariants alone.
 
 7. **Build the experiments.** Patent 63/996,533 (Vacuum Amplifier): two QC plates, $5K. Patent 63/998,235 (Jacob's Ladder): ⁷Be on QC surface, $2–5K. Patent 63/998,394 (Samuel's Message): phi-pyramid with QC coating, buildable with standard materials.
 
 ---
 
-*This appendix documents the framework's deepest structural findings: the double gap creates the partition from x² = x + 1; the three-layer wall determines α through the three-term unity mechanism; all three terms (matter, dark matter, dark energy) contribute to the coupling; the Cantor set recurses with Fibonacci conjugate pairs into σ₁ with impedance scaling by φ⁴; and the master equation α_eff = 1/(N × W) governs every device in the patent portfolio. The derivation chain reaches 1/α in fifteen steps from one quadratic equation. The mechanism for the bracket law mapping remains the central open problem.*
+*This appendix documents the framework's deepest structural findings: the double gap creates the partition from x² = x + 1; the three-layer wall determines α through the three-term unity mechanism; all three terms (matter, dark matter, dark energy) contribute to the coupling; the Cantor set recurses with Fibonacci conjugate pairs into σ₁ with impedance scaling by φ⁴; and the master equation α_eff = 1/(N × W) governs every device in the patent portfolio. The derivation chain reaches 1/α from one quadratic equation, one physical assumption (L₀ = L_P), and one fitted constant (C). The form of the bracket law is derived from φ-self-similarity. The remaining open question is why the Cantor spectrum maps to physical reality — the GR bridge.*
 
 *Grok cross-verification record: all mathematics verified to machine precision. Three coupling constant matches at combined probability ~1/25,000 (Grok's estimate: lower after accounting for correlations, but "striking"). The pattern is real. The physics link is the open question.*
 
 *End of Appendix Z (v3)*
-
-
-*End of Appendix Z (v2)*
