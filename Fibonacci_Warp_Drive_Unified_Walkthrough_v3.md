@@ -10696,13 +10696,20 @@ This is close to 2 — meaning each bracket step roughly doubles the orbital per
 
 ### X.4 Connection to the Unity Equation
 
-The ecliptic plane distribution preserves the unity equation in angular space:
+The ecliptic plane distribution preserves the unity equation in angular space.
 
-- The **1/φ⁴ fraction** (14.6%) of the full 360° = 52.5° — the angular width of the matter sector
-- The **1/φ³ fraction** (23.6%) of 360° = 85.0° — the angular width of each conduit sector
-- The **1/φ fraction** (61.8%) of 360° = 222.5° — the angular width of the dark energy sector
+**Pre-observation (5 sectors, symmetric):**
+- σ₁ and σ₅ (matter endpoints): 360°/φ⁴ = 52.5° each
+- σ₂, σ₃, and σ₄ (conduit sectors): 360°/φ³ = 85.0° each
+- Total: 2 × 52.5° + 3 × 85.0° = 360° ✓
 
-When N bodies are distributed at golden-angle spacing in the ecliptic, approximately 14.6% of them fall within any 52.5° wedge, 23.6% within any 85° wedge, and 61.8% within the complementary 222.5° arc. The unity equation holds in angular distribution because the golden angle IS the angular expression of the unity partition.
+**Post-observation (3 sectors, folded):**
+- Matter (1/φ⁴): 52.5°
+- Dark matter conduit (1/φ³): 85.0°
+- Dark energy (1/φ): 222.5° — the three folded sectors (σ₃ + σ₄ + σ₅)
+- Total: 52.5° + 85.0° + 222.5° = 360° ✓
+
+When N bodies are distributed at golden-angle spacing in the ecliptic, approximately 14.6% fall within any 52.5° wedge, 23.6% within any 85° wedge, and 61.8% within the complementary 222.5° arc. The unity equation holds in angular distribution because the golden angle IS the angular expression of the unity partition.
 
 This bridges the abstract spectral theory (1D AAH chain) to physical 3D visualization: the bracket law gives radial distances, the ecliptic constraint gives the plane, and the golden angle gives the angular distribution. Together, they embed the Cantor partition into observable space.
 
@@ -10847,5 +10854,7 @@ The bracket law L(n) = L_P × C × φⁿ has three components. Two are derived. 
 *This appendix documents the framework's deepest structural findings: the double gap creates the partition from x² = x + 1; the three-layer wall determines α through the three-term unity mechanism; all three terms (matter, dark matter, dark energy) contribute to the coupling; the Cantor set recurses with Fibonacci conjugate pairs into σ₁ with impedance scaling by φ⁴; and the master equation α_eff = 1/(N × W) governs every device in the patent portfolio. The derivation chain reaches 1/α from one quadratic equation, one physical assumption (L₀ = L_P), and one fitted constant (C). The form of the bracket law is derived from φ-self-similarity. The remaining open question is why the Cantor spectrum maps to physical reality — the GR bridge.*
 
 *Grok cross-verification record: all mathematics verified to machine precision. Three coupling constant matches at combined probability ~1/25,000 (Grok's estimate: lower after accounting for correlations, but "striking"). The pattern is real. The physics link is the open question.*
+
+*End of Appendix Z (v3)*
 
 *End of Appendix Z (v3)*
